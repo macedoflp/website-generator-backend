@@ -1,4 +1,4 @@
-package com.WebGenerator.App.Repository;
+package com.WebGenerator.App.repository;
 
 import com.WebGenerator.App.models.User;
 import org.springframework.data.domain.Sort;
