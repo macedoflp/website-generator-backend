@@ -7,12 +7,16 @@ import jakarta.persistence.*;
 public class Img {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long imgId;
+    private Long id;
+
+    @ManyToOne
+    @JoinColumn(name="website_id")
+    private WebSite website;
 
     private String imgUrl;
 
-    public Long getImgId() {
-        return imgId;
+    public Long getId() {
+        return id;
     }
 
     public String getImgUrl() {
@@ -21,5 +25,13 @@ public class Img {
 
     public void setImgUrl(String imgUrl) {
         this.imgUrl = imgUrl;
+    }
+
+    @Override
+    public String toString() {
+        return "Img{" +
+                "id=" + id +
+                ", imgUrl='" + imgUrl + '\'' +
+                '}';
     }
 }

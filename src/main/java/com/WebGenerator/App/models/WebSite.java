@@ -2,19 +2,28 @@ package com.WebGenerator.App.models;
 
 import jakarta.persistence.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import static jakarta.persistence.CascadeType.ALL;
+
 @Entity
 @Table(name = "websites")
-public class Website {
+public class WebSite {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private String title;
     private String text;
-    private Integer imgId;
     private String musicUrl;
-    private Boolean isActive;
     private Integer plan;
+
+    @Column(columnDefinition = "INTEGER DEFAULT 1")
+    private Integer isActive = Status.ACTIVE.getValue();
+
+    @OneToMany(cascade = ALL, mappedBy = "website")
+    private List<Img> imgs  = new ArrayList<>();
 
     public Long getId() {
         return id;
@@ -36,14 +45,6 @@ public class Website {
         this.text = text;
     }
 
-    public Integer getImgId() {
-        return imgId;
-    }
-
-    public void setImgId(Integer imgId) {
-        this.imgId = imgId;
-    }
-
     public String getMusicUrl() {
         return musicUrl;
     }
@@ -52,12 +53,12 @@ public class Website {
         this.musicUrl = musicUrl;
     }
 
-    public Boolean getIsActive() {
+    public Integer getIsActive() {
         return isActive;
     }
 
-    public void setIsActive(Boolean isActive) {
-        this.isActive = isActive;
+    public void setIsActive(Status isActive) {
+        this.isActive = isActive.getValue();
     }
 
     public Integer getPlan() {
