@@ -1,4 +1,4 @@
-package com.WebGenerator.App.http.controller;
+package com.WebGenerator.App.api.controller;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
