@@ -1,5 +1,6 @@
-package com.WebGenerator.App.models;
+package com.WebGenerator.App.domain.models;
 
+import com.WebGenerator.App.domain.models.util.Status;
 import jakarta.persistence.*;
 
 import java.util.ArrayList;
@@ -14,19 +15,31 @@ public class WebSite {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(nullable = false)
     private String title;
+
+    @Column(nullable = false)
     private String text;
-    private String musicUrl;
+
+    @Column(nullable = false)
     private Integer plan;
 
-    @Column(columnDefinition = "INTEGER DEFAULT 1")
+    @Column(name = "music_url")
+    private String musicUrl;
+
+    @Column(columnDefinition = "INTEGER DEFAULT 1", name = "is_active")
     private Integer isActive = Status.ACTIVE.getValue();
 
     @OneToMany(cascade = ALL, mappedBy = "website")
     private List<Img> imgs  = new ArrayList<>();
 
+
     public Long getId() {
         return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getTitle() {
@@ -45,6 +58,14 @@ public class WebSite {
         this.text = text;
     }
 
+    public Integer getPlan() {
+        return plan;
+    }
+
+    public void setPlan(Integer plan) {
+        this.plan = plan;
+    }
+
     public String getMusicUrl() {
         return musicUrl;
     }
@@ -53,19 +74,20 @@ public class WebSite {
         this.musicUrl = musicUrl;
     }
 
+    public void setIsActive(Integer isActive) {
+        this.isActive = isActive;
+    }
+
     public Integer getIsActive() {
         return isActive;
     }
 
-    public void setIsActive(Status isActive) {
-        this.isActive = isActive.getValue();
+    public List<Img> getImgs() {
+        return imgs;
     }
 
-    public Integer getPlan() {
-        return plan;
+    public void setImgs(List<Img> imgs) {
+        this.imgs = imgs;
     }
 
-    public void setPlan(Integer plan) {
-        this.plan = plan;
-    }
 }

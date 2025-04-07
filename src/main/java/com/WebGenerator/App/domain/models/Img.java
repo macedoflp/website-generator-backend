@@ -1,4 +1,4 @@
-package com.WebGenerator.App.models;
+package com.WebGenerator.App.domain.models;
 
 import jakarta.persistence.*;
 
@@ -13,6 +13,7 @@ public class Img {
     @JoinColumn(name="website_id")
     private WebSite website;
 
+    @Column(name = "img_url")
     private String imgUrl;
 
     public Long getId() {
