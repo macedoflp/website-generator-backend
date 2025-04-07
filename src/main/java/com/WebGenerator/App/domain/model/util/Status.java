@@ -1,4 +1,4 @@
-package com.WebGenerator.App.domain.models.util;
+package com.WebGenerator.App.domain.model.util;
 
 public enum Status {
     ACTIVE(1),

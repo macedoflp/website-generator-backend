@@ -1,6 +1,6 @@
-package com.WebGenerator.App.domain.repository;
+package com.WebGenerator.App.infrastructure.repository;
 
-import com.WebGenerator.App.domain.models.WebSite;
+import com.WebGenerator.App.domain.model.WebSite;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface WebSiteRespository extends JpaRepository<WebSite, Long> {
