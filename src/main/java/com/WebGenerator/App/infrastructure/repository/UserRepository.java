@@ -1,6 +1,6 @@
-package com.WebGenerator.App.domain.repository;
+package com.WebGenerator.App.infrastructure.repository;
 
-import com.WebGenerator.App.domain.models.User;
+import com.WebGenerator.App.domain.model.User;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;

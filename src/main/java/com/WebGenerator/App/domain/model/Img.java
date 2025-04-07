@@ -1,4 +1,4 @@
-package com.WebGenerator.App.domain.models;
+package com.WebGenerator.App.domain.model;
 
 import jakarta.persistence.*;
 
