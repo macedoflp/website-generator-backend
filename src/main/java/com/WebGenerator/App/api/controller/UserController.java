@@ -7,6 +7,7 @@ import com.WebGenerator.App.domain.service.IUserService;
 import com.WebGenerator.App.infrastructure.service.UserService;
 //import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -27,21 +28,22 @@ public class UserController {
     public UserDto getUserByName(@RequestParam String name) {
         return userService.getFirstUserByName(name);
     }
-//
-//    @GetMapping("/{id}")
-//    public UserDto getUserById(@PathVariable Long id) {
-//        User user = userService.getFirstUserById(id).orElseThrow(UserNotFoundException::new);
-//        return toDto(user);
-//    }
-//
-//    private UserDto toDto(User user){
-//        return modelMapper.map(user, UserDto.class);
-//    }
 
-//    @GetMapping("/sorted")
-//    public List<User> getSortedUsers() {
-//        return userService.getAllUsersSortedByNameAsc();
-//    }
+    @GetMapping("/{id}")
+    public UserDto getUserById(@PathVariable Long id) {
+        return userService.getFirstUserById(id);
+    }
+
+    @GetMapping("/sorted")
+    public List<UserDto> getSortedUsers() {
+        return userService.getAllUsersSortedByNameAsc();
+    }
+
+    @GetMapping("/sorted-by")
+    public List<UserDto> getSortedUsersBy(@RequestParam String param) {
+        Sort sort = Sort.by(Sort.Direction.ASC, param);
+        return userService.getAllUsersSorted(sort);
+    }
 
     @PostMapping("/")
     public UserDto create(@RequestBody UserDto userDto){

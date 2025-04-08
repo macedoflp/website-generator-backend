@@ -9,7 +9,7 @@ import java.util.Optional;
 public interface IUserService {
     public List<UserDto> getUsers();
     public UserDto getFirstUserByName(String name);
-    public Optional<UserDto> getFirstUserById(Long id);
+    public UserDto getFirstUserById(Long id);
     public List<UserDto> getAllUsersSortedByNameAsc();
     public UserDto create(UserDto userDto);
     public List<UserDto> getAllUsersSorted(Sort sort) ;
