@@ -36,14 +36,17 @@ public class UserService implements IUserService {
          return userMapper.userModelToUserDto(user);
     }
 
-    public Optional<UserDto> getFirstUserById(Long id) {
-//        return userRepository.findById(id);
-        return null;
+    public UserDto getFirstUserById(Long id) {
+       User user = userRepository.findById(id)
+                .orElseThrow(UserNotFoundException::new);
+       return userMapper.userModelToUserDto(user);
     }
 
     public List<UserDto> getAllUsersSortedByNameAsc() {
-        return null;
-//        return userRepository.all(Sort.by(Sort.Direction.ASC, "name"));
+        return userRepository.all(Sort.by(Sort.Direction.ASC, "name"))
+                .stream()
+                .map(userMapper::userModelToUserDto)
+                .collect(Collectors.toList());
     }
 
     public UserDto create(UserDto userDto){
@@ -53,8 +56,10 @@ public class UserService implements IUserService {
     }
 
     public List<UserDto> getAllUsersSorted(Sort sort) {
-//        return userRepository.all(sort);
-        return null;
+        return userRepository.all(sort)
+                .stream()
+                .map(userMapper::userModelToUserDto)
+                .collect(Collectors.toList());
     }
 
     public void sendEmailUser(UserDto userDto){
