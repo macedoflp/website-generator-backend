@@ -3,6 +3,10 @@ package com.WebGenerator.App.infrastructure.service;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import com.WebGenerator.App.api.controller.util.exception.UserNotFoundException;
+import com.WebGenerator.App.api.dto.UserDto;
+import com.WebGenerator.App.domain.model.Img;
+import com.WebGenerator.App.domain.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
@@ -20,6 +24,9 @@ public class WebSiteService implements IWebSiteService {
     private WebSiteRespository webSiteRespository;
 
     @Autowired
+    private ImgService imgService;
+
+    @Autowired
     private WebSiteMapper webSiteMapper;
 
     @Override
@@ -27,6 +34,12 @@ public class WebSiteService implements IWebSiteService {
         WebSite webSiteSave = webSiteMapper.webSiteDtoToWebSiteModel(webSiteDto);
         webSiteRespository.save(webSiteSave);
         return webSiteMapper.webSiteModelToWebSiteDto(webSiteSave);
+    }
+
+    public Img addImg(WebSite webSite, Img img){
+        webSite.addImg(img);
+        img.setWebsite(webSite);
+        return imgService.create(img);
     }
 
     @Override
@@ -43,5 +56,10 @@ public class WebSiteService implements IWebSiteService {
                 .stream()
                 .map(webSiteMapper::webSiteModelToWebSiteDto)
                 .collect(Collectors.toList());
+    }
+
+    public WebSite getWebSiteById(Long id) {
+        return webSiteRespository.findById(id)
+                .orElseThrow(UserNotFoundException::new);
     }
 }

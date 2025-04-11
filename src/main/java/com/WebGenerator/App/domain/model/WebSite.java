@@ -19,6 +19,10 @@ public class WebSite {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    public Long getId() {
+        return id;
+    }
+
     @Column(nullable = false)
     private String title;
 
@@ -36,5 +40,9 @@ public class WebSite {
 
     @OneToMany(cascade = ALL, mappedBy = "website")
     private List<Img> imgs  = new ArrayList<>();
+
+    public void addImg(Img img){
+        this.imgs.add(img);
+    }
 
 }

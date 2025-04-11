@@ -2,6 +2,8 @@ package com.WebGenerator.App.api.controller;
 
 
 import com.WebGenerator.App.api.dto.WebSiteDto;
+import com.WebGenerator.App.domain.model.Img;
+import com.WebGenerator.App.domain.model.WebSite;
 import com.WebGenerator.App.domain.service.IWebSiteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
@@ -29,6 +31,12 @@ public class WebSiteController {
     @PostMapping("/")
     public WebSiteDto create(@RequestBody WebSiteDto webSite){
         return webSiteService.create(webSite);
+    }
+
+    @PostMapping("/add-img/{id}")
+    public Img addImg(@PathVariable Long id, @RequestBody Img img){
+        WebSite webSite = webSiteService.getWebSiteById(id);
+        return  webSiteService.addImg(webSite, img);
     }
 
 }
