@@ -28,6 +28,10 @@ public class Img {
         this.imgUrl = imgUrl;
     }
 
+    public void setWebsite(WebSite website) {
+        this.website = website;
+    }
+
     @Override
     public String toString() {
         return "Img{" +
