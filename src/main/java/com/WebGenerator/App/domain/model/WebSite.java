@@ -32,6 +32,9 @@ public class WebSite {
     @Column(nullable = false)
     private Integer plan;
 
+    @Column(nullable = false)
+    private String dataCouple;
+
     @Column(name = "music_url")
     private String musicUrl;
 
