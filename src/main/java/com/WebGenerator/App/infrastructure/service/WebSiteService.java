@@ -16,6 +16,7 @@ import com.WebGenerator.App.api.mapper.WebSiteMapper;
 import com.WebGenerator.App.domain.model.WebSite;
 import com.WebGenerator.App.domain.service.IWebSiteService;
 import com.WebGenerator.App.infrastructure.repository.WebSiteRespository;
+import org.springframework.web.multipart.MultipartFile;
 
 @Service
 public class WebSiteService implements IWebSiteService {
@@ -36,10 +37,13 @@ public class WebSiteService implements IWebSiteService {
         return webSiteMapper.webSiteModelToWebSiteDto(webSiteSave);
     }
 
-    public Img addImg(WebSite webSite, Img img){
-        webSite.addImg(img);
-        img.setWebsite(webSite);
-        return imgService.create(img);
+    public Img addImg(WebSite webSite, MultipartFile file){
+        String urlImg = imgService.uplodImg(file);
+        Img imgNew = new Img();
+        imgNew.setImgUrl(urlImg);
+        webSite.addImg(imgNew);
+        imgNew.setWebsite(webSite);
+        return imgService.create(imgNew);
     }
 
     @Override

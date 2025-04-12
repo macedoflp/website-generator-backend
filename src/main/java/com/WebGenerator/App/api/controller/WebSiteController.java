@@ -8,6 +8,7 @@ import com.WebGenerator.App.domain.service.IWebSiteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -33,10 +34,10 @@ public class WebSiteController {
         return webSiteService.create(webSite);
     }
 
-    @PostMapping("/add-img/{id}")
-    public Img addImg(@PathVariable Long id, @RequestBody Img img){
-        WebSite webSite = webSiteService.getWebSiteById(id);
-        return  webSiteService.addImg(webSite, img);
+    @PostMapping(path = "/add-img/{idWebSite}", consumes = {"multipart/form-data"})
+    public Img addImg(@PathVariable Long idWebSite, @RequestParam("file") MultipartFile file){
+        WebSite webSite = webSiteService.getWebSiteById(idWebSite);
+        return  webSiteService.addImg(webSite, file);
     }
 
 }
