@@ -11,6 +11,7 @@ public class WebSiteDto {
     private String title;
     private String text;
     private Integer plan;
+    private String dataCouple;
     @JsonProperty("music_url")
     private String musicUrl;
     @JsonProperty("is_active")
