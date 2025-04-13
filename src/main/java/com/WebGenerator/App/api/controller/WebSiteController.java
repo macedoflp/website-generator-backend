@@ -40,4 +40,9 @@ public class WebSiteController {
         return  webSiteService.addImg(webSite, file);
     }
 
+    @GetMapping("/get-img/{idWebSite}")
+    public List<Img> getImg(@PathVariable Long idWebSite){
+        WebSite webSite = webSiteService.getWebSiteById(idWebSite);
+        return webSite.getImgs();
+    }
 }
