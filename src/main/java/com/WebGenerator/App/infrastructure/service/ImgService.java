@@ -31,10 +31,16 @@ public class ImgService {
             byte[] fileBytes = file.getBytes();
             String base64File = Base64.getEncoder().encodeToString(fileBytes);
 
-            FileCreateRequest request = new FileCreateRequest(base64File, file.getOriginalFilename());
+            String contentType = file.getContentType();
+            String base64WithPrefix = "data:" + contentType + ";base64," + base64File;
+
+            FileCreateRequest request = new FileCreateRequest(base64WithPrefix, file.getOriginalFilename());
             request.setPrivateFile(false);
 
             Result result = imageKit.upload(request);
+            if (result == null) {
+                throw new RuntimeException("Upload falhou.");
+            }
 
             List<Map<String, String>> transformation = new ArrayList<>();
 
@@ -43,6 +49,9 @@ public class ImgService {
             options.put("path", result.getFilePath());
             options.put("transformation", transformation);
 
+            if (result.getUrl() == null) {
+                throw new RuntimeException("Upload falhou ou URL da imagem não retornada.");
+            }
             return result.getUrl();
 
         } catch (IOException e) {
