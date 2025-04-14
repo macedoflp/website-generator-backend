@@ -48,4 +48,7 @@ public class WebSite {
         this.imgs.add(img);
     }
 
+    public List<Img> getImgs() {
+        return imgs;
+    }
 }

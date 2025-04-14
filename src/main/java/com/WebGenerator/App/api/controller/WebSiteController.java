@@ -34,10 +34,15 @@ public class WebSiteController {
         return webSiteService.create(webSite);
     }
 
-    @PostMapping(path = "/add-img/{idWebSite}", consumes = {"multipart/form-data"})
+    @PostMapping(path = "/add-img/{idWebSite}")
     public Img addImg(@PathVariable Long idWebSite, @RequestParam("file") MultipartFile file){
         WebSite webSite = webSiteService.getWebSiteById(idWebSite);
         return  webSiteService.addImg(webSite, file);
     }
 
+    @GetMapping("/get-img/{idWebSite}")
+    public List<Img> getImg(@PathVariable Long idWebSite){
+        WebSite webSite = webSiteService.getWebSiteById(idWebSite);
+        return webSite.getImgs();
+    }
 }
