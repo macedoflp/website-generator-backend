@@ -3,10 +3,8 @@ package com.WebGenerator.App.infrastructure.service;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import com.WebGenerator.App.api.controller.util.exception.UserNotFoundException;
-import com.WebGenerator.App.api.dto.UserDto;
+import com.WebGenerator.App.api.controller.util.exception.WebSiteNotFoundException;
 import com.WebGenerator.App.domain.model.Img;
-import com.WebGenerator.App.domain.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
@@ -64,6 +62,6 @@ public class WebSiteService implements IWebSiteService {
 
     public WebSite getWebSiteById(Long id) {
         return webSiteRespository.findById(id)
-                .orElseThrow(UserNotFoundException::new);
+                .orElseThrow(WebSiteNotFoundException::new);
     }
 }
