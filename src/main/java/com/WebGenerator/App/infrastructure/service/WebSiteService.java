@@ -15,6 +15,8 @@ import com.WebGenerator.App.domain.model.WebSite;
 import com.WebGenerator.App.domain.service.IWebSiteService;
 import com.WebGenerator.App.infrastructure.repository.WebSiteRespository;
 import org.springframework.web.multipart.MultipartFile;
+import se.michaelthelin.spotify.SpotifyApi;
+import se.michaelthelin.spotify.requests.data.search.simplified.SearchTracksRequest;
 
 @Service
 public class WebSiteService implements IWebSiteService {
@@ -24,6 +26,9 @@ public class WebSiteService implements IWebSiteService {
 
     @Autowired
     private ImgService imgService;
+
+    @Autowired
+    private SpotifyApi spotifyApi;
 
     @Autowired
     private WebSiteMapper webSiteMapper;
@@ -63,5 +68,9 @@ public class WebSiteService implements IWebSiteService {
     public WebSite getWebSiteById(Long id) {
         return webSiteRespository.findById(id)
                 .orElseThrow(WebSiteNotFoundException::new);
+    }
+
+    public SearchTracksRequest listarMusicas(String s){
+        return spotifyApi.searchTracks(s).build();
     }
 }
