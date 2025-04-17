@@ -16,7 +16,6 @@ public class WebSiteDto {
     private String musicUrl;
     @JsonProperty("is_active")
     private Integer isActive;
-
     public Long getId() {
         return id;
     }
