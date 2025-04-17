@@ -1,7 +1,6 @@
 package com.WebGenerator.App.infrastructure.service;
 
 import com.WebGenerator.App.domain.model.Img;
-import com.WebGenerator.App.domain.model.WebSite;
 import com.WebGenerator.App.infrastructure.repository.ImgRepository;
 import io.imagekit.sdk.ImageKit;
 import io.imagekit.sdk.models.FileCreateRequest;

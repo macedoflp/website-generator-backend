@@ -1,12 +1,14 @@
 package com.WebGenerator.App.infrastructure.service;
 
+import java.io.IOException;
+import java.text.ParseException;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import com.WebGenerator.App.api.controller.util.exception.UserNotFoundException;
-import com.WebGenerator.App.api.dto.UserDto;
+import com.WebGenerator.App.api.controller.util.exception.WebSiteNotFoundException;
 import com.WebGenerator.App.domain.model.Img;
-import com.WebGenerator.App.domain.model.User;
+import com.google.gson.JsonObject;
+import org.apache.hc.core5.http.ContentType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
@@ -17,6 +19,13 @@ import com.WebGenerator.App.domain.model.WebSite;
 import com.WebGenerator.App.domain.service.IWebSiteService;
 import com.WebGenerator.App.infrastructure.repository.WebSiteRespository;
 import org.springframework.web.multipart.MultipartFile;
+import se.michaelthelin.spotify.SpotifyApi;
+import se.michaelthelin.spotify.exceptions.SpotifyWebApiException;
+import se.michaelthelin.spotify.model_objects.credentials.ClientCredentials;
+import se.michaelthelin.spotify.model_objects.specification.Paging;
+import se.michaelthelin.spotify.model_objects.specification.Track;
+import se.michaelthelin.spotify.requests.authorization.client_credentials.ClientCredentialsRequest;
+import se.michaelthelin.spotify.requests.data.search.simplified.SearchTracksRequest;
 
 @Service
 public class WebSiteService implements IWebSiteService {
@@ -26,6 +35,9 @@ public class WebSiteService implements IWebSiteService {
 
     @Autowired
     private ImgService imgService;
+
+    @Autowired
+    private SpotifyApi spotifyApi;
 
     @Autowired
     private WebSiteMapper webSiteMapper;
@@ -64,6 +76,34 @@ public class WebSiteService implements IWebSiteService {
 
     public WebSite getWebSiteById(Long id) {
         return webSiteRespository.findById(id)
-                .orElseThrow(UserNotFoundException::new);
+                .orElseThrow(WebSiteNotFoundException::new);
+    }
+
+    public Track[] listMusic(String s, int limit){
+
+        ClientCredentialsRequest clientCredentialsRequest = spotifyApi.clientCredentials().build();
+        try {
+            final ClientCredentials clientCredentials = clientCredentialsRequest.execute();
+
+            // Set access token for further "spotifyApi" object usage
+            spotifyApi.setAccessToken(clientCredentials.getAccessToken());
+
+//            System.err.println("Expires in: " + clientCredentials.getExpiresIn());
+
+        } catch (Exception e) {
+            System.out.println("Error: " + e.getMessage());
+        }
+        SearchTracksRequest searchTracksRequest = spotifyApi.searchTracks(s)
+                .limit(limit)
+                .build();
+        try {
+            Paging<Track> trackPaging = searchTracksRequest.execute();
+            Track[] tracks = trackPaging.getItems();
+            return tracks;
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+       return null;
     }
 }
