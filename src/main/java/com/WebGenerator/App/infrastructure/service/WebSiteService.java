@@ -1,10 +1,14 @@
 package com.WebGenerator.App.infrastructure.service;
 
+import java.io.IOException;
+import java.text.ParseException;
 import java.util.List;
 import java.util.stream.Collectors;
 
 import com.WebGenerator.App.api.controller.util.exception.WebSiteNotFoundException;
 import com.WebGenerator.App.domain.model.Img;
+import com.google.gson.JsonObject;
+import org.apache.hc.core5.http.ContentType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
@@ -16,6 +20,11 @@ import com.WebGenerator.App.domain.service.IWebSiteService;
 import com.WebGenerator.App.infrastructure.repository.WebSiteRespository;
 import org.springframework.web.multipart.MultipartFile;
 import se.michaelthelin.spotify.SpotifyApi;
+import se.michaelthelin.spotify.exceptions.SpotifyWebApiException;
+import se.michaelthelin.spotify.model_objects.credentials.ClientCredentials;
+import se.michaelthelin.spotify.model_objects.specification.Paging;
+import se.michaelthelin.spotify.model_objects.specification.Track;
+import se.michaelthelin.spotify.requests.authorization.client_credentials.ClientCredentialsRequest;
 import se.michaelthelin.spotify.requests.data.search.simplified.SearchTracksRequest;
 
 @Service
@@ -70,7 +79,32 @@ public class WebSiteService implements IWebSiteService {
                 .orElseThrow(WebSiteNotFoundException::new);
     }
 
-    public SearchTracksRequest listarMusicas(String s){
-        return spotifyApi.searchTracks(s).build();
+    public Track[] listarMusicas(String s){
+        // autenticar api
+        ClientCredentialsRequest clientCredentialsRequest = spotifyApi.clientCredentials().build();
+        try {
+            final ClientCredentials clientCredentials = clientCredentialsRequest.execute();
+
+            // Set access token for further "spotifyApi" object usage
+            spotifyApi.setAccessToken(clientCredentials.getAccessToken());
+
+            System.err.println("Expires in: " + clientCredentials.getExpiresIn());
+
+        } catch (Exception e) {
+            System.out.println("Error: " + e.getMessage());
+        }
+        //https://api.spotify.com/v1/search?q=${encodeURIComponent(query)}&type=track&limit=5
+        SearchTracksRequest searchTracksRequest = spotifyApi.searchTracks(s)
+                .limit(5)
+                .build();
+        try {
+            Paging<Track> trackPaging = searchTracksRequest.execute();
+            Track[] tracks = trackPaging.getItems();
+            return tracks;
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+       return null;
     }
 }

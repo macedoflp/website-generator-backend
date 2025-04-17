@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import se.michaelthelin.spotify.model_objects.specification.Track;
 import se.michaelthelin.spotify.requests.data.search.simplified.SearchTracksRequest;
 
 import java.util.List;
@@ -48,7 +49,7 @@ public class WebSiteController {
     }
 
     @GetMapping("/list-music")
-    public SearchTracksRequest searchMusic(@RequestParam String search){
+    public Track[] searchMusic(@RequestParam String search){
         return webSiteService.listarMusicas(search);
     }
 }
