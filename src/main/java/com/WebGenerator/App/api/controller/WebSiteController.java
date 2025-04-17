@@ -48,8 +48,8 @@ public class WebSiteController {
         return webSite.getImgs();
     }
 
-    @GetMapping("/list-music")
-    public Track[] searchMusic(@RequestParam String search){
-        return webSiteService.listarMusicas(search);
+    @GetMapping("/search-music")
+    public Track[] searchMusic(@RequestParam String search, @RequestParam int limit){
+        return webSiteService.listMusic(search, limit);
     }
 }

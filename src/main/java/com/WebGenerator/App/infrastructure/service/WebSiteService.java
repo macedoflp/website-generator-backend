@@ -79,8 +79,8 @@ public class WebSiteService implements IWebSiteService {
                 .orElseThrow(WebSiteNotFoundException::new);
     }
 
-    public Track[] listarMusicas(String s){
-        // autenticar api
+    public Track[] listMusic(String s, int limit){
+
         ClientCredentialsRequest clientCredentialsRequest = spotifyApi.clientCredentials().build();
         try {
             final ClientCredentials clientCredentials = clientCredentialsRequest.execute();
@@ -88,14 +88,13 @@ public class WebSiteService implements IWebSiteService {
             // Set access token for further "spotifyApi" object usage
             spotifyApi.setAccessToken(clientCredentials.getAccessToken());
 
-            System.err.println("Expires in: " + clientCredentials.getExpiresIn());
+//            System.err.println("Expires in: " + clientCredentials.getExpiresIn());
 
         } catch (Exception e) {
             System.out.println("Error: " + e.getMessage());
         }
-        //https://api.spotify.com/v1/search?q=${encodeURIComponent(query)}&type=track&limit=5
         SearchTracksRequest searchTracksRequest = spotifyApi.searchTracks(s)
-                .limit(5)
+                .limit(limit)
                 .build();
         try {
             Paging<Track> trackPaging = searchTracksRequest.execute();

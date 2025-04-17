@@ -16,5 +16,5 @@ public interface IWebSiteService {
     public List<WebSiteDto> allWebSitesSortedBy(Sort sort);
     public Img addImg(WebSite webSite, MultipartFile file);
     public WebSite getWebSiteById(Long id);
-    public Track[] listarMusicas(String s);
+    public Track[] listMusic(String s, int limit);
 }
