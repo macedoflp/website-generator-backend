@@ -1,10 +1,8 @@
 package com.WebGenerator.App.api.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import lombok.Getter;
 import lombok.Setter;
 
-@Getter
 @Setter
 public class WebSiteDto {
     private Long id;
@@ -18,5 +16,29 @@ public class WebSiteDto {
     private Integer isActive;
     public Long getId() {
         return id;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public String getText() {
+        return text;
+    }
+
+    public Integer getPlan() {
+        return plan;
+    }
+
+    public String getDataCouple() {
+        return dataCouple;
+    }
+
+    public String getMusicUrl() {
+        return musicUrl;
+    }
+
+    public Integer getIsActive() {
+        return isActive;
     }
 }

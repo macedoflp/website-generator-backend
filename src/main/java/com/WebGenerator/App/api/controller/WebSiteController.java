@@ -2,15 +2,17 @@ package com.WebGenerator.App.api.controller;
 
 
 import com.WebGenerator.App.api.dto.WebSiteDto;
+import com.WebGenerator.App.domain.localization.EmailTextProvider;
 import com.WebGenerator.App.domain.model.Img;
+import com.WebGenerator.App.domain.model.QRCodeModel;
 import com.WebGenerator.App.domain.model.WebSite;
 import com.WebGenerator.App.domain.service.IWebSiteService;
+import com.WebGenerator.App.infrastructure.service.MailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import se.michaelthelin.spotify.model_objects.specification.Track;
-import se.michaelthelin.spotify.requests.data.search.simplified.SearchTracksRequest;
 
 import java.util.List;
 
@@ -19,6 +21,9 @@ import java.util.List;
 public class WebSiteController {
     @Autowired
     private IWebSiteService webSiteService;
+
+    @Autowired
+    private MailService mailService;
 
     @GetMapping("/")
     public List<WebSiteDto> All(){
@@ -32,8 +37,21 @@ public class WebSiteController {
     }
 
     @PostMapping("/")
-    public WebSiteDto create(@RequestBody WebSiteDto webSite){
-        return webSiteService.create(webSite);
+    public WebSiteDto create(
+            @RequestBody WebSiteDto webSite,
+            @RequestParam EmailTextProvider.Language language,
+            @RequestParam QRCodeModel qrModel)
+    {
+        WebSiteDto webSiteDto = webSiteService.create(webSite);
+
+        if(webSiteDto != null){
+            mailService.sendEmail(
+                    "daniel99korban@gmail.com",
+                    "Seu WebSite esta Pronto",
+                    mailService.renderHtmlFromTemplate(webSiteDto, language, qrModel)
+            );
+        }
+        return webSiteDto;
     }
 
     @PostMapping(path = "/add-img/{idWebSite}")

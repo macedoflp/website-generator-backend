@@ -102,7 +102,6 @@
 			<artifactId>spotify-web-api-java</artifactId>
 			<version>9.2.0</version>
 		</dependency>
-
 		<dependency>
 			<groupId>com.github.imagekit-developer</groupId>
 			<artifactId>imagekit-java</artifactId>
@@ -112,6 +111,15 @@
 			<groupId>com.squareup.okhttp3</groupId>
 			<artifactId>okhttp</artifactId>
 			<version>3.10.0</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-mail</artifactId>
+			<version>3.4.4</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-thymeleaf</artifactId>
 		</dependency>
 	</dependencies>
 	<repositories>
