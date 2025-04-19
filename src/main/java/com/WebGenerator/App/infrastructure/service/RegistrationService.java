@@ -38,10 +38,17 @@ public class RegistrationService {
         User userSave = userMapper.userDtoToUserModel(registrationDto.getUserDto());
         WebSite webSiteSave = webSiteMapper.webSiteDtoToWebSiteModel(registrationDto.getWebSiteDto());
 
+        WebSite webSiteSaved = webSiteRespository.save(webSiteSave);
+        String linkWebSite = "https://love-timeline-five.vercel.app/" + webSiteSaved.getId() + "/" + slugify(webSiteSaved.getTitle());
+        webSiteSaved.setUrlWebSite(linkWebSite);
+
+        webSiteSaved = webSiteRespository.save(webSiteSaved);
+
         if (userRecover != null){
             webSiteSave.setUser(userRecover);
             userRecover.getWebSites().add(webSiteSave);
-            return webSiteMapper.webSiteModelToWebSiteDto(webSiteRespository.save(webSiteSave));
+            webSiteSaved = webSiteRespository.save(webSiteSaved);
+            return webSiteMapper.webSiteModelToWebSiteDto(webSiteSaved);
         }
 
         webSiteSave.setUser(userSave);
@@ -52,6 +59,20 @@ public class RegistrationService {
 
         return webSiteMapper.webSiteModelToWebSiteDto(webSite);
 
+    }
+
+    private String slugify(String text) {
+        if (text == null || text.isEmpty()) {
+            return "";
+        }
+
+        return text
+                .trim() // Remove espaços do início e do fim
+                .toLowerCase() // Converte para letras minúsculas
+                .replaceAll("[\\u0300-\\u036f]", "") // Remove os acentos
+                .replaceAll("&", "and") // Substitui "&" por "and"
+                .replaceAll("[^a-z0-9]+", "-") // Substitui caracteres inválidos por hífens
+                .replaceAll("^-+|-+$", ""); // Remove hífens do início e do fim
     }
 
 }

@@ -16,6 +16,7 @@ public class WebSiteDto {
     private String musicUrl;
     @JsonProperty("is_active")
     private Integer isActive;
+    @JsonProperty("website_url")
     private String urlWebSite;
 
     private User user_app;
