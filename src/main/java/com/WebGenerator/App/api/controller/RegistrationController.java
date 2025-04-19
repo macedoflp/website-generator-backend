@@ -5,6 +5,7 @@ import com.WebGenerator.App.api.dto.UserDto;
 import com.WebGenerator.App.api.dto.WebSiteDto;
 import com.WebGenerator.App.domain.localization.EmailTextProvider;
 import com.WebGenerator.App.domain.model.QRCodeModel;
+import com.WebGenerator.App.domain.model.WebSite;
 import com.WebGenerator.App.infrastructure.service.MailService;
 import com.WebGenerator.App.infrastructure.service.RegistrationService;
 import jakarta.validation.Valid;
@@ -43,7 +44,9 @@ public class RegistrationController {
         UserDto user = registrationDto.getUserDto();
         WebSiteDto webSite = registrationDto.getWebSiteDto();
 
-        if(registrationService.registerUserWhiWebSite(registrationDto)){
+        WebSiteDto webSiteSaved = registrationService.registerUserWhiWebSite(registrationDto);
+
+        if(webSiteSaved != null){
             mailService.sendEmail(
                 user.getEmail(),
                 assunto.get(language),
@@ -52,7 +55,7 @@ public class RegistrationController {
 
         }
 
-        return ResponseEntity.ok().build();
+        return ResponseEntity.ok(webSiteSaved);
     }
 
 }

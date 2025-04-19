@@ -1,6 +1,7 @@
 package com.WebGenerator.App.infrastructure.service;
 
 import com.WebGenerator.App.api.dto.RegistrationDto;
+import com.WebGenerator.App.api.dto.WebSiteDto;
 import com.WebGenerator.App.api.mapper.UserMapper;
 import com.WebGenerator.App.api.mapper.WebSiteMapper;
 import com.WebGenerator.App.domain.model.User;
@@ -30,7 +31,7 @@ public class RegistrationService {
     private UserRepository userRepository;
 
     @Transactional
-    public boolean registerUserWhiWebSite(RegistrationDto registrationDto){
+    public WebSiteDto registerUserWhiWebSite(RegistrationDto registrationDto){
 
         User userRecover = userRepository.findFirstByEmail(registrationDto.getUserDto().getEmail());
 
@@ -40,8 +41,7 @@ public class RegistrationService {
         if (userRecover != null){
             webSiteSave.setUser(userRecover);
             userRecover.getWebSites().add(webSiteSave);
-            webSiteRespository.save(webSiteSave);
-            return true;
+            return webSiteMapper.webSiteModelToWebSiteDto(webSiteRespository.save(webSiteSave));
         }
 
         webSiteSave.setUser(userSave);
@@ -50,7 +50,7 @@ public class RegistrationService {
         WebSite webSite = webSiteRespository.save(webSiteSave);
         User user = userRepository.save(userSave);
 
-        return webSite.getId() != null && user.getId() != null;
+        return webSiteMapper.webSiteModelToWebSiteDto(webSite);
 
     }
 
