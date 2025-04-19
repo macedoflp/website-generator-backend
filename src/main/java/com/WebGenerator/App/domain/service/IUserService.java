@@ -12,6 +12,5 @@ public interface IUserService {
     public UserDto getFirstUserById(Long id);
     public List<UserDto> getAllUsersSortedByNameAsc();
     public UserDto create(UserDto userDto);
-    public List<UserDto> getAllUsersSorted(Sort sort) ;
-    public void sendEmailUser(UserDto userDto);
+    public List<UserDto> getAllUsersSorted(Sort sort);
 }

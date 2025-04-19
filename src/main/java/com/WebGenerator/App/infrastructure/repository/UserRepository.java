@@ -14,6 +14,9 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
     Optional<User> findFirstByName(String name);
 
+    @Query(value = "SELECT u FROM User u WHERE u.email = ?1")
+    User findFirstByEmail(String email);
+
     @Query(value = "From User")
     List<User> all(Sort sort);
 

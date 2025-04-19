@@ -38,17 +38,63 @@ public class WebSite {
     @Column(name = "music_url")
     private String musicUrl;
 
+    private String urlWebSite;
+
     @Column(columnDefinition = "INTEGER DEFAULT 1", name = "is_active")
     private Integer isActive = Status.ACTIVE.getValue();
 
     @OneToMany(cascade = ALL, mappedBy = "website")
     private List<Img> imgs  = new ArrayList<>();
 
+    @ManyToOne
+    @JoinColumn(name="user_id")
+    private User user_app;
+
     public void addImg(Img img){
         this.imgs.add(img);
     }
 
+    public void setUser(User user) {
+        this.user_app = user;
+    }
+
     public List<Img> getImgs() {
         return imgs;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public void setText(String text) {
+        this.text = text;
+    }
+
+    public void setPlan(Integer plan) {
+        this.plan = plan;
+    }
+
+    public void setDataCouple(String dataCouple) {
+        this.dataCouple = dataCouple;
+    }
+
+    public void setMusicUrl(String musicUrl) {
+        this.musicUrl = musicUrl;
+    }
+
+    public void setIsActive(Integer isActive) {
+        this.isActive = isActive;
+    }
+
+    public String getUrlWebSite() {
+        return urlWebSite;
+    }
+
+    public void setUrlWebSite(String urlWebSite) {
+        this.urlWebSite = urlWebSite;
     }
 }

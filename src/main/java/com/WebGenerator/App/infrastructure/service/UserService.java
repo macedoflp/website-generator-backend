@@ -11,7 +11,6 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -42,6 +41,7 @@ public class UserService implements IUserService {
        return userMapper.userModelToUserDto(user);
     }
 
+
     public List<UserDto> getAllUsersSortedByNameAsc() {
         return userRepository.all(Sort.by(Sort.Direction.ASC, "name"))
                 .stream()
@@ -62,7 +62,5 @@ public class UserService implements IUserService {
                 .collect(Collectors.toList());
     }
 
-    public void sendEmailUser(UserDto userDto){
-        return;
-    }
+
 }
