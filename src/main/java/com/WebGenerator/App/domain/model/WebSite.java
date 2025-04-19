@@ -39,6 +39,7 @@ public class WebSite {
     @Column(name = "music_url")
     private String musicUrl;
 
+    @Column(name = "website_url")
     private String urlWebSite;
 
     @Column(columnDefinition = "INTEGER DEFAULT 1", name = "is_active")
@@ -98,5 +99,9 @@ public class WebSite {
 
     public void setUrlWebSite(String urlWebSite) {
         this.urlWebSite = urlWebSite;
+    }
+
+    public String getTitle() {
+        return title;
     }
 }

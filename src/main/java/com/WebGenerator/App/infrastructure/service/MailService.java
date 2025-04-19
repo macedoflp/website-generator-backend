@@ -41,12 +41,11 @@ public class MailService {
         }
     }
 
-    public String renderHtmlFromTemplate(WebSiteDto webSiteDto, EmailTextProvider.Language language, QRCodeModel modelChosen) {
+    public String renderHtmlFromTemplate(String url, EmailTextProvider.Language language, QRCodeModel modelChosen) {
         Context context = new Context();
 
-//        context.setVariable("title", contentEmail.getTitleEmail() + "daniel99korban@gmail.com".split("@")[0]);
-        context.setVariable("siteUrl", "https://love-timeline-five.vercel.app/" + webSiteDto.getId() + "/" + webSiteDto.getTitle().replace(" ", "%20"));
-        context.setVariable("qrCodeUrl", "https://api.qrserver.com/v1/create-qr-code/?size=170x170&data=https://love-timeline-five.vercel.app/" + webSiteDto.getId() + "/" + webSiteDto.getTitle().replace(" ", "%20"));
+        context.setVariable("siteUrl", url);
+        context.setVariable("qrCodeUrl", "https://api.qrserver.com/v1/create-qr-code/?size=170x170&data=" + url);
 
 
         Map<String, String> texts = EmailTextProvider.getText(language);

@@ -45,12 +45,13 @@ public class RegistrationController {
         WebSiteDto webSite = registrationDto.getWebSiteDto();
 
         WebSiteDto webSiteSaved = registrationService.registerUserWhiWebSite(registrationDto);
+        System.err.println("Id no controller: " + webSiteSaved.getUrlWebSite());
 
         if(webSiteSaved != null){
             mailService.sendEmail(
                 user.getEmail(),
                 assunto.get(language),
-                mailService.renderHtmlFromTemplate(webSite, language, qrModel)
+                mailService.renderHtmlFromTemplate(webSiteSaved.getUrlWebSite(), language, qrModel)
             );
 
         }
