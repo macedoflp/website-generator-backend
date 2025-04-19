@@ -14,11 +14,23 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import se.michaelthelin.spotify.model_objects.specification.Track;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/websites")
 public class WebSiteController {
+
+    private Map<EmailTextProvider.Language, String> assunto;
+
+    public WebSiteController(){
+        this.assunto = new HashMap<>();
+        assunto.put(EmailTextProvider.Language.EN, "Your website is ready");
+        assunto.put(EmailTextProvider.Language.ES, "Tu sitio está listo");
+        assunto.put(EmailTextProvider.Language.PT, "Seu site está pronto");
+    }
+
     @Autowired
     private IWebSiteService webSiteService;
 
@@ -36,6 +48,7 @@ public class WebSiteController {
         return webSiteService.allWebSitesSortedBy(sort);
     }
 
+    // passa a ser uma rota para fins de testes de envio de emails e criação de site sem esta atrelado a um usuario
     @PostMapping("/")
     public WebSiteDto create(
             @RequestBody WebSiteDto webSite,
@@ -46,8 +59,8 @@ public class WebSiteController {
 
         if(webSiteDto != null){
             mailService.sendEmail(
-                    "daniel99korban@gmail.com",
-                    "Seu WebSite esta Pronto",
+                    "mdkstudioslz@gmail.com",
+                    assunto.get(language),
                     mailService.renderHtmlFromTemplate(webSiteDto, language, qrModel)
             );
         }

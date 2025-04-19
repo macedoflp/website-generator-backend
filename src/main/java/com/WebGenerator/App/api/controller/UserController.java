@@ -1,11 +1,8 @@
 package com.WebGenerator.App.api.controller;
 
-//import com.WebGenerator.App.api.controller.util.exception.UserNotFoundException;
 import com.WebGenerator.App.api.dto.UserDto;
-//import com.WebGenerator.App.domain.model.User;
 import com.WebGenerator.App.domain.service.IUserService;
-import com.WebGenerator.App.infrastructure.service.UserService;
-//import org.modelmapper.ModelMapper;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.*;
@@ -46,7 +43,7 @@ public class UserController {
     }
 
     @PostMapping("/")
-    public UserDto create(@RequestBody UserDto userDto){
+    public UserDto create(@RequestBody @Valid UserDto userDto){
         return userService.create(userDto);
     }
 
