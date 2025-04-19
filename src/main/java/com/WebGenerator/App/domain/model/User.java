@@ -1,5 +1,6 @@
 package com.WebGenerator.App.domain.model;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -21,6 +22,7 @@ public class User {
     private String email;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "user_app")
+    @JsonManagedReference
     private List<WebSite> webSites = new ArrayList<>();
 
     public void addSite(WebSite webSite){

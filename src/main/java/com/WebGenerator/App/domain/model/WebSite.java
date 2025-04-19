@@ -1,6 +1,7 @@
 package com.WebGenerator.App.domain.model;
 
 import com.WebGenerator.App.domain.model.util.Status;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -48,6 +49,7 @@ public class WebSite {
 
     @ManyToOne
     @JoinColumn(name="user_id")
+    @JsonBackReference
     private User user_app;
 
     public void addImg(Img img){
