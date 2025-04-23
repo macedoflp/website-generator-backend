@@ -42,8 +42,9 @@ public class WebSite {
     @Column(name = "website_url")
     private String urlWebSite;
 
-    @Column(columnDefinition = "INTEGER DEFAULT 1", name = "is_active")
-    private Integer isActive = Status.ACTIVE.getValue();
+    @Enumerated(EnumType.ORDINAL)
+    @Column(name = "is_active")
+    private Status isActive = Status.ACTIVE;
 
     @OneToMany(cascade = ALL, mappedBy = "website")
     private List<Img> imgs  = new ArrayList<>();
@@ -89,7 +90,7 @@ public class WebSite {
         this.musicUrl = musicUrl;
     }
 
-    public void setIsActive(Integer isActive) {
+    public void setIsActive(Status isActive) {
         this.isActive = isActive;
     }
 
