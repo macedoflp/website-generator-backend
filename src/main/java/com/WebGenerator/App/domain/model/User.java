@@ -21,9 +21,18 @@ public class User {
     @Column(nullable = false, unique = true)
     private String email;
 
+    // Codigo que será gerado para validar usuario
+    private String generatedCode;
+
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "user_app")
     @JsonManagedReference
     private List<WebSite> webSites = new ArrayList<>();
+
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
+    @JoinTable(name="users_roles",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name="role_id"))
+    private List<Role> roles = new ArrayList<>();
 
     public void addSite(WebSite webSite){
         this.webSites.add(webSite);
@@ -59,5 +68,21 @@ public class User {
 
     public void setWebSites(List<WebSite> webSites) {
         this.webSites = webSites;
+    }
+
+    public String getGeneratedCode() {
+        return generatedCode;
+    }
+
+    public void setGeneratedCode(String generatedCode) {
+        this.generatedCode = generatedCode;
+    }
+
+    public List<Role> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(List<Role> roles) {
+        this.roles = roles;
     }
 }
