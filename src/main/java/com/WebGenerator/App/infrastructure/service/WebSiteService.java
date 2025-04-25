@@ -101,4 +101,9 @@ public class WebSiteService implements IWebSiteService {
         }
        return null;
     }
+
+    @Override
+    public List<String> getLinksUser(Long idUser) {
+        return this.webSiteRespository.findLinksUser(idUser);
+    }
 }

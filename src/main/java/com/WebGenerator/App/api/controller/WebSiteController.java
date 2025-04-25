@@ -83,4 +83,9 @@ public class WebSiteController {
     public Track[] searchMusic(@RequestParam String search, @RequestParam int limit){
         return webSiteService.listMusic(search, limit);
     }
+
+    @GetMapping("/links-user/{idUser}")
+    public List<String> userListLinks(@PathVariable Long idUser){
+        return webSiteService.getLinksUser(idUser);
+    }
 }
