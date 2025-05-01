@@ -35,7 +35,6 @@ public class PaymentController {
         SessionCreateParams params = SessionCreateParams.builder()
                 .setUiMode(SessionCreateParams.UiMode.CUSTOM)
                 .setMode(SessionCreateParams.Mode.PAYMENT)
-                .setReturnUrl(domain + "/return?session_id={CHECKOUT_SESSION_ID}")
                 .addLineItem(SessionCreateParams.LineItem.builder()
                         .setQuantity(1L)
                         .setPrice(priceId)
