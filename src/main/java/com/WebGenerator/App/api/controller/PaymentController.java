@@ -29,7 +29,7 @@ public class PaymentController {
         Stripe.apiKey = stripeSecretKey;
 
         // Monta domínio dinâmico: http://localhost:{server.port}
-        String domain = "http://localhost:" + serverPort;
+        String domain = "https://website-generator-backend-g3xs.onrender.com";
 
         // Cria parâmetros da sessão com UI Custom
         SessionCreateParams params = SessionCreateParams.builder()
