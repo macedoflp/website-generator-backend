@@ -19,7 +19,8 @@ public class SecurityConfiguration {
             "/register",
             "/login/request-code",
             "/login/validate-code",
-            "/payment/create-checkout-session"
+            "/payment/create-checkout-session",
+            "/users/"
     };
 
     public static final String[] ENDPOINTS_WITH_AUTHENTICATION_REQUIRED = {

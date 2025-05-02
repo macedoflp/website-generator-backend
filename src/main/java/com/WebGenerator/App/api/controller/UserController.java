@@ -5,6 +5,7 @@ import com.WebGenerator.App.domain.service.IUserService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
+import org.springframework.web.bind.ServletRequestBindingException;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -42,9 +43,10 @@ public class UserController {
         return userService.getAllUsersSorted(sort);
     }
 
-//    @PostMapping("/")
-//    public UserDto create(@RequestBody @Valid UserDto userDto){
-//        return userService.create(userDto);
-//    }
+    @PostMapping("/")
+    public UserDto create(@RequestBody UserDto user){
+        System.err.println(user);
+        return userService.create(user);
+    }
 
 }
