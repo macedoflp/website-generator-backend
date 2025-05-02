@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,6 +22,12 @@ public class User {
     @Column(nullable = false, unique = true)
     private String email;
 
+    @Column(name = "temporary_code")
+    private String temporaryCode;
+
+    @Column(name = "code_expiration")
+    private LocalDateTime codeExpiration;
+
     // Codigo que será gerado para validar usuario
     private String generatedCode;
 
@@ -33,6 +40,23 @@ public class User {
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name="role_id"))
     private List<Role> roles = new ArrayList<>();
+
+
+    public String getTemporaryCode() {
+        return temporaryCode;
+    }
+
+    public void setTemporaryCode(String temporaryCode) {
+        this.temporaryCode = temporaryCode;
+    }
+
+    public LocalDateTime getCodeExpiration() {
+        return codeExpiration;
+    }
+
+    public void setCodeExpiration(LocalDateTime codeExpiration) {
+        this.codeExpiration = codeExpiration;
+    }
 
     public void addSite(WebSite webSite){
         this.webSites.add(webSite);

@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Verification Code</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f9f9f9;
+            color: #333;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 600px;
+            margin: 50px auto;
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+        }
+        .header {
+            text-align: center;
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+        .code {
+            font-size: 20px;
+            font-weight: bold;
+            background: #f1f1f1;
+            padding: 10px;
+            border-radius: 4px;
+            text-align: center;
+            margin: 20px 0;
+        }
+        .footer {
+            font-size: 12px;
+            text-align: center;
+            color: #777;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="header">Verification Code</div>
+    <p>Hello, <span th:text="${email}"></span>!</p>
+    <p>Your verification code is:</p>
+    <div class="code" th:text="${code}"></div>
+    <p>
+        <span th:text="${codeMsg}"></span>
+    </p>
+    <div class="footer">
+        &copy; 2025 MDK Studio. All rights reserved.
+    </div>
+</div>
+</body>
+</html>

@@ -23,6 +23,7 @@ public class EmailTextProvider {
         pt.put("footerP1Email", "Atenciosamente");
         pt.put("footerP2Email", "Equipe MDK Studio");
         pt.put("footerP3Email", "Transformando ideias em soluções digitais");
+        pt.put("codeMsg", "Por favor, use este código para completar o seu processo de verificação. Se você não solicitou este código, ignore esta mensagem.");
 
         Map<String, String> en = new HashMap<>();
         en.put("nameAppEmail", "Love Timeline.");
@@ -35,6 +36,7 @@ public class EmailTextProvider {
         en.put("footerP1Email", "Sincerely");
         en.put("footerP2Email", "MDK Studio Team");
         en.put("footerP3Email", "Turning ideas into digital solutions");
+        en.put("codeMsg", "Please use this code to complete your verification process. If you did not request this code, please ignore this message.");
 
         Map<String, String> es = new HashMap<>();
         es.put("nameAppEmail", "Love Timeline.");
@@ -47,6 +49,7 @@ public class EmailTextProvider {
         es.put("footerP1Email", "Atentamente");
         es.put("footerP2Email", "Equipo de MDK Studio");
         es.put("footerP3Email", "Transformando ideas en soluciones digitales");
+        es.put("codeMsg", "Por favor, utilice este código para completar su proceso de verificación. Si no solicitó este código, por favor ignore este mensaje.");
 
         translations.put(Language.PT, pt);
         translations.put(Language.EN, en);
