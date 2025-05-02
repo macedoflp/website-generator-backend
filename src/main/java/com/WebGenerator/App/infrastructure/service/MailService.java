@@ -57,4 +57,17 @@ public class MailService {
         return templateEngine.process("lovetimeline-email", context);
     }
 
+    public String renderHtmlFromTemplate(String code, EmailTextProvider.Language language) {
+        Context context = new Context();
+
+        context.setVariable("code", code);
+
+
+        Map<String, String> texts = EmailTextProvider.getText(language);
+        texts.forEach(context::setVariable);
+
+
+        return templateEngine.process("verification-code", context);
+    }
+
 }

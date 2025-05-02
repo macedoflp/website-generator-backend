@@ -1,11 +1,9 @@
 package com.WebGenerator.App.api.controller;
 
 import com.WebGenerator.App.api.dto.RegistrationDto;
-import com.WebGenerator.App.api.dto.UserDto;
-import com.WebGenerator.App.api.dto.WebSiteDto;
+import com.WebGenerator.App.api.dto.RegistrationResponseDto;
 import com.WebGenerator.App.domain.localization.EmailTextProvider;
 import com.WebGenerator.App.domain.model.QRCodeModel;
-import com.WebGenerator.App.domain.model.WebSite;
 import com.WebGenerator.App.infrastructure.service.MailService;
 import com.WebGenerator.App.infrastructure.service.RegistrationService;
 import jakarta.validation.Valid;
@@ -41,22 +39,17 @@ public class RegistrationController {
             @RequestParam EmailTextProvider.Language language,
             @RequestParam QRCodeModel qrModel
     ){
-        UserDto user = registrationDto.getUserDto();
-        WebSiteDto webSite = registrationDto.getWebSiteDto();
+        RegistrationResponseDto response = registrationService.registerUserWhiWebSite(registrationDto, language);
 
-        WebSiteDto webSiteSaved = registrationService.registerUserWhiWebSite(registrationDto);
-        System.err.println("Id no controller: " + webSiteSaved.getUrlWebSite());
-
-        if(webSiteSaved != null){
+        if (response.webSite() != null) {
             mailService.sendEmail(
-                user.getEmail(),
-                assunto.get(language),
-                mailService.renderHtmlFromTemplate(webSiteSaved.getUrlWebSite(), language, qrModel)
+                    registrationDto.getUserDto().getEmail(),
+                    assunto.get(language),
+                    mailService.renderHtmlFromTemplate(response.webSite().getUrlWebSite(), language, qrModel)
             );
-
         }
 
-        return ResponseEntity.ok(webSiteSaved);
+        return ResponseEntity.ok(response);
     }
 
 }

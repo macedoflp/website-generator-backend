@@ -42,9 +42,9 @@ public class UserController {
         return userService.getAllUsersSorted(sort);
     }
 
-    @PostMapping("/")
-    public UserDto create(@RequestBody @Valid UserDto userDto){
-        return userService.create(userDto);
-    }
+//    @PostMapping("/")
+//    public UserDto create(@RequestBody @Valid UserDto userDto){
+//        return userService.create(userDto);
+//    }
 
 }

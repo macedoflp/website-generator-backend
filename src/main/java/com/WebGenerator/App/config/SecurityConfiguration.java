@@ -15,7 +15,10 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 public class SecurityConfiguration {
 
     public static final String[] ENDPOINTS_WITH_AUTHENTICATION_NOT_REQUIRED = {
-            "/**",
+            "/login/",
+            "/register",
+            "/login/request-code",
+            "/login/validate-code"
     };
 
     public static final String[] ENDPOINTS_WITH_AUTHENTICATION_REQUIRED = {
@@ -37,9 +40,9 @@ public class SecurityConfiguration {
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and().authorizeHttpRequests()
                 .requestMatchers(ENDPOINTS_WITH_AUTHENTICATION_NOT_REQUIRED).permitAll()
-//                .requestMatchers(ENDPOINTS_WITH_AUTHENTICATION_REQUIRED).authenticated()
-//                .requestMatchers(ENDPOINTS_CUSTOMER).hasRole("CUSTOMER")
-//                .requestMatchers(ENDPOINTS_ADMIN).hasRole("ADMINISTRATOR")
+                .requestMatchers(ENDPOINTS_WITH_AUTHENTICATION_REQUIRED).authenticated()
+                .requestMatchers(ENDPOINTS_CUSTOMER).hasRole("CUSTOMER")
+                .requestMatchers(ENDPOINTS_ADMIN).hasRole("ADMINISTRATOR")
                 .anyRequest().denyAll()
                 .and().addFilterBefore(userAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();
