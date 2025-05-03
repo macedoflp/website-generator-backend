@@ -1,6 +1,7 @@
 package com.WebGenerator.App.api.controller;
 
 import com.WebGenerator.App.api.dto.UserDto;
+import com.WebGenerator.App.domain.localization.EmailTextProvider;
 import com.WebGenerator.App.domain.service.IUserService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,9 +45,9 @@ public class UserController {
     }
 
     @PostMapping("/")
-    public UserDto create(@RequestBody UserDto user){
+    public UserDto create(@RequestBody UserDto user, @RequestParam EmailTextProvider.Language language){
         System.err.println(user);
-        return userService.create(user);
+        return userService.create(user, language);
     }
 
 }

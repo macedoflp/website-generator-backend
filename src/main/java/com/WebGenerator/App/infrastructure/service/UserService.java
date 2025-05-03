@@ -1,32 +1,47 @@
 package com.WebGenerator.App.infrastructure.service;
 
+import com.WebGenerator.App.api.controller.util.exception.CodeGenerator;
 import com.WebGenerator.App.api.controller.util.exception.UserNotFoundException;
-import com.WebGenerator.App.api.dto.LoginUserDto;
-import com.WebGenerator.App.api.dto.RecoveryJwtTokenDto;
 import com.WebGenerator.App.api.dto.UserDto;
 import com.WebGenerator.App.api.mapper.UserMapper;
 import com.WebGenerator.App.config.SecurityConfiguration;
+import com.WebGenerator.App.domain.localization.EmailTextProvider;
 import com.WebGenerator.App.domain.model.Role;
 import com.WebGenerator.App.domain.model.User;
-import com.WebGenerator.App.domain.model.util.RoleName;
 import com.WebGenerator.App.domain.service.IUserService;
 import com.WebGenerator.App.infrastructure.repository.RoleRepository;
 import com.WebGenerator.App.infrastructure.repository.UserRepository;
+import com.WebGenerator.App.infrastructure.service.util.exception.UserAlreadyExistsException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @Service
 public class UserService implements IUserService {
+
+
+    private Map<EmailTextProvider.Language, String> assunto;
+
+    public UserService(){
+        this.assunto = new HashMap<>();
+        assunto.put(EmailTextProvider.Language.EN, "Your verification code");
+        assunto.put(EmailTextProvider.Language.ES, "Su código de verificación");
+        assunto.put(EmailTextProvider.Language.PT, "Seu código de verificação");
+    }
 
     @Autowired
     private UserRepository userRepository;
 
     @Autowired
     private RoleRepository roleRepository;
+
+    @Autowired
+    private MailService mailService;
 
     @Autowired
     private SecurityConfiguration securityConfiguration;
@@ -61,7 +76,27 @@ public class UserService implements IUserService {
                 .collect(Collectors.toList());
     }
 
-    public UserDto create(UserDto userDto){
+    public UserDto create(UserDto userDto, EmailTextProvider.Language language){
+        // recuperar o usuario
+        User userRecover = userRepository.findFirstByEmail(userDto.getEmail());
+
+        if (userRecover != null){
+            // atualização de codigo de verificação
+            String generatedCode = CodeGenerator.generateCode(6);
+            String encodeCode = securityConfiguration.passwordEncoder().encode(generatedCode);
+            userRecover.setTemporaryCode(encodeCode);
+            userRepository.save(userRecover);
+
+            // Envia email com código
+            mailService.sendEmail(
+                    userRecover.getEmail(),
+                    assunto.get(assunto),
+                    mailService.renderHtmlFromTemplate(generatedCode, language)
+            );
+
+            throw new UserAlreadyExistsException();
+
+        }
 
         Role roleRecovered = roleRepository
                 .findByName(userDto.getRole())

@@ -68,7 +68,7 @@ public class AutenticationService {
 
         System.err.println("usernamePasswordAuthenticationToken:" + usernamePasswordAuthenticationToken);
 
-        Authentication authentication = authenticationManager.authenticate(
+        Authentication authentication =  authenticationManager.authenticate(
                 usernamePasswordAuthenticationToken
         );
 

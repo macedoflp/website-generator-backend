@@ -2,6 +2,7 @@ package com.WebGenerator.App.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -20,9 +21,8 @@ public class SecurityConfiguration {
             "/login/validate-code",
             "/payment/create-checkout-session",
             "/users/",
-            "/add-img/",
-            "/search-music",
             "/websites/",
+            "/websites/search-music",
             "/error", // Adicionando o endpoint de erro
             "/favicon.ico", // Opcional: para evitar problemas com o ícone
             "/webjars/**",  // Opcional: para lidar com dependências de bibliotecas estáticas
@@ -30,12 +30,12 @@ public class SecurityConfiguration {
     };
 
     public static final String[] ENDPOINTS_WITH_AUTHENTICATION_REQUIRED = {
-            "/websites"
+//            "/websites"
     };
 
     public static final String[] ENDPOINTS_CUSTOMER = {
             "/users/test/customer",
-            "/websites"
+            "/websites",
     };
 
     public static final String[] ENDPOINTS_ADMIN = {
@@ -47,6 +47,8 @@ public class SecurityConfiguration {
         return http.csrf().disable()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and().authorizeHttpRequests()
+                .requestMatchers("/websites/get-img", "/websites/get-img/**").permitAll()
+                .requestMatchers(HttpMethod.GET, "/websites/get-img/*").permitAll()
                 .requestMatchers(ENDPOINTS_WITH_AUTHENTICATION_NOT_REQUIRED).permitAll()
                 .requestMatchers(ENDPOINTS_WITH_AUTHENTICATION_REQUIRED).authenticated()
                 .requestMatchers(ENDPOINTS_CUSTOMER).hasRole("CUSTOMER")
