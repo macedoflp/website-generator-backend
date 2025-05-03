@@ -3,13 +3,18 @@ package com.WebGenerator.App.api.controller;
 import com.WebGenerator.App.api.dto.UserDto;
 import com.WebGenerator.App.domain.localization.EmailTextProvider;
 import com.WebGenerator.App.domain.service.IUserService;
+import com.WebGenerator.App.infrastructure.service.util.exception.UserAlreadyExistsException;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.ServletRequestBindingException;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/users")
@@ -45,9 +50,17 @@ public class UserController {
     }
 
     @PostMapping("/")
-    public UserDto create(@RequestBody UserDto user, @RequestParam EmailTextProvider.Language language){
-        System.err.println(user);
-        return userService.create(user, language);
+    public ResponseEntity<?> create(@RequestBody UserDto user, @RequestParam EmailTextProvider.Language language){
+        try {
+            UserDto createdUser = userService.create(user, language);
+            return ResponseEntity.status(HttpStatus.CREATED).body(createdUser);
+        } catch (UserAlreadyExistsException ex) {
+            Map<String, Object> response = new HashMap<>();
+            response.put("message", ex.getMessage());
+            response.put("userId", ex.getUserId());
+            response.put("email", ex.getEmail());
+            return ResponseEntity.status(HttpStatus.CONFLICT).body(response);
+        }
     }
 
 }
