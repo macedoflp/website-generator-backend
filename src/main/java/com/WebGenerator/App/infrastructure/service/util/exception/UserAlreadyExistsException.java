@@ -5,12 +5,14 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 
 @ResponseStatus(HttpStatus.CONFLICT)
 public class UserAlreadyExistsException extends RuntimeException {
+    private final Long userId;
 
-    public UserAlreadyExistsException(String message) {
+    public UserAlreadyExistsException(String message, Long userId) {
         super(message);
+        this.userId = userId;
     }
 
-    public UserAlreadyExistsException() {
-        super("Usuário já existe. Um novo código de verificação foi enviado para o e-mail.");
+    public Long getUserId() {
+        return userId;
     }
 }

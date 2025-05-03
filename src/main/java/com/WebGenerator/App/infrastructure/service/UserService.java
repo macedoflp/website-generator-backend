@@ -94,7 +94,10 @@ public class UserService implements IUserService {
                     mailService.renderHtmlFromTemplate(generatedCode, language)
             );
 
-            throw new UserAlreadyExistsException();
+            throw new UserAlreadyExistsException(
+                    "Usuário já existe. Um novo código de verificação foi enviado para o e-mail.",
+                    userRecover.getId()
+            );
 
         }
 
