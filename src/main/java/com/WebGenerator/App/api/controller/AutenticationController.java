@@ -19,9 +19,7 @@ public class AutenticationController {
 
     @PostMapping("/validate-code")
     public ResponseEntity<RecoveryJwtTokenDto> authenticateUser(@RequestBody LoginUserDto loginUserDto) {
-        System.err.println("Bateu na rota de autenticação: " + loginUserDto.generatedCode());
         RecoveryJwtTokenDto token = autenticationService.authenticateUser(loginUserDto);
-        System.err.println("seu token: " + token);
         return new ResponseEntity<>(token, HttpStatus.OK);
     }
 

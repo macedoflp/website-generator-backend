@@ -11,6 +11,6 @@ public interface IUserService {
     public UserDto getFirstUserByName(String name);
     public UserDto getFirstUserById(Long id);
     public List<UserDto> getAllUsersSortedByNameAsc();
-    public UserDto create(UserDto userDto, EmailTextProvider.Language language);
+    public UserDto create(UserDto userDto);
     public List<UserDto> getAllUsersSorted(Sort sort);
 }
