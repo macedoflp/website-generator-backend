@@ -20,6 +20,9 @@ public class SecurityConfiguration {
             "/login/validate-code",
             "/payment/create-checkout-session",
             "/users/",
+            "/add-img/",
+            "/search-music",
+            "/websites/",
             "/error", // Adicionando o endpoint de erro
             "/favicon.ico", // Opcional: para evitar problemas com o ícone
             "/webjars/**",  // Opcional: para lidar com dependências de bibliotecas estáticas
