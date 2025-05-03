@@ -20,17 +20,6 @@ public class UserDto {
     @JsonProperty("generated_code")
     private String generatedCode;
 
-    @Override
-    public String toString() {
-        return "UserDto{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", email='" + email + '\'' +
-                ", generatedCode='" + generatedCode + '\'' +
-                ", role=" + role +
-                '}';
-    }
-
     @Enumerated(EnumType.STRING)
     private RoleName role;
 
