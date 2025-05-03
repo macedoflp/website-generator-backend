@@ -15,20 +15,24 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 public class SecurityConfiguration {
 
     public static final String[] ENDPOINTS_WITH_AUTHENTICATION_NOT_REQUIRED = {
-            "/login/",
             "/register",
             "/login/request-code",
             "/login/validate-code",
             "/payment/create-checkout-session",
-            "/users/"
+            "/users/",
+            "/error", // Adicionando o endpoint de erro
+            "/favicon.ico", // Opcional: para evitar problemas com o ícone
+            "/webjars/**",  // Opcional: para lidar com dependências de bibliotecas estáticas
+            "/resources/**" // Opcional: para recursos estáticos
     };
 
     public static final String[] ENDPOINTS_WITH_AUTHENTICATION_REQUIRED = {
-            "/websites/"
+            "/websites"
     };
 
     public static final String[] ENDPOINTS_CUSTOMER = {
-            "/users/test/customer"
+            "/users/test/customer",
+            "/websites"
     };
 
     public static final String[] ENDPOINTS_ADMIN = {
@@ -37,7 +41,6 @@ public class SecurityConfiguration {
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http, UserAuthenticationFilter userAuthenticationFilter) throws Exception {
-        System.err.println("dajsdjsasasa");
         return http.csrf().disable()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and().authorizeHttpRequests()

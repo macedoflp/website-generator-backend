@@ -62,7 +62,6 @@ public class AutenticationService {
             throw new BadCredentialsException("Código inválido");
         }
 
-        System.err.println("Passando nos if de boas");
 
         UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken =
                 new UsernamePasswordAuthenticationToken(login.email(), login.generatedCode());
@@ -72,6 +71,8 @@ public class AutenticationService {
         Authentication authentication = authenticationManager.authenticate(
                 usernamePasswordAuthenticationToken
         );
+
+        System.err.println("Autenticate: " + authentication);
 
         UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
         System.err.println("userDetails: " + userDetails);

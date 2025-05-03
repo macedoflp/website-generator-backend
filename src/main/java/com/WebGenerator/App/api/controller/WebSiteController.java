@@ -49,7 +49,7 @@ public class WebSiteController {
     }
 
     // passa a ser uma rota para fins de testes de envio de emails e criação de site sem esta atrelado a um usuario
-    @PostMapping("/")
+    @PostMapping
     public WebSiteDto create(
             @RequestBody WebSiteDto webSite,
             @RequestParam EmailTextProvider.Language language,

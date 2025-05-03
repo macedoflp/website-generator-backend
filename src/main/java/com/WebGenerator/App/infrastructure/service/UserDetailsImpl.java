@@ -28,7 +28,7 @@ public class UserDetailsImpl implements UserDetails {
 
     @Override
     public String getPassword() {
-        return user.getGeneratedCode();
+        return user.getTemporaryCode();
     }
 
     @Override
