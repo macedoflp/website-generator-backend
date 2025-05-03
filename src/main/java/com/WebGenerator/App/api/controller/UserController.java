@@ -50,14 +50,14 @@ public class UserController {
     }
 
     @PostMapping("/")
-    public ResponseEntity<?> create(@RequestBody UserDto user, @RequestParam EmailTextProvider.Language language){
+    public ResponseEntity<?> create(@RequestBody UserDto user){
         try {
-            UserDto createdUser = userService.create(user, language);
+            UserDto createdUser = userService.create(user);
             return ResponseEntity.status(HttpStatus.CREATED).body(createdUser);
         } catch (UserAlreadyExistsException ex) {
             Map<String, Object> response = new HashMap<>();
             response.put("message", ex.getMessage());
-            response.put("userId", ex.getUserId());
+            response.put("id", ex.getUserId());
             response.put("email", ex.getEmail());
             return ResponseEntity.status(HttpStatus.CONFLICT).body(response);
         }

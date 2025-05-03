@@ -25,6 +25,7 @@ public class MailService {
     private TemplateEngine templateEngine;
 
     public String sendEmail(String des, String assunto, String html){
+        System.err.println("chamada!");
         try{
             MimeMessage message = javaMailSender.createMimeMessage();
             MimeMessageHelper helper = new MimeMessageHelper(message, true, "UTF-8");

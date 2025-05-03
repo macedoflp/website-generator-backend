@@ -59,7 +59,7 @@ public class WebSiteController {
 
         if(webSiteDto != null){
             mailService.sendEmail(
-                    "mdkstudioslz@gmail.com",
+                    webSiteDto.getUser().getEmail(),
                     assunto.get(language),
                     mailService.renderHtmlFromTemplate(webSiteDto.getUrlWebSite(), language, qrModel)
             );

@@ -66,16 +66,12 @@ public class AutenticationService {
         UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken =
                 new UsernamePasswordAuthenticationToken(login.email(), login.generatedCode());
 
-        System.err.println("usernamePasswordAuthenticationToken:" + usernamePasswordAuthenticationToken);
 
         Authentication authentication =  authenticationManager.authenticate(
                 usernamePasswordAuthenticationToken
         );
 
-        System.err.println("Autenticate: " + authentication);
-
         UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
-        System.err.println("userDetails: " + userDetails);
 
         return new RecoveryJwtTokenDto(jwtTokenService.generateToken(userDetails));
     }

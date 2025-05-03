@@ -16,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -75,30 +76,17 @@ public class UserService implements IUserService {
                 .collect(Collectors.toList());
     }
 
-    public UserDto create(UserDto userDto, EmailTextProvider.Language language){
+    public UserDto create(UserDto userDto){
         // recuperar o usuario
         User userRecover = userRepository.findFirstByEmail(userDto.getEmail());
 
         if (userRecover != null){
-            // atualização de codigo de verificação
-            String generatedCode = CodeGenerator.generateCode(6);
-            String encodeCode = securityConfiguration.passwordEncoder().encode(generatedCode);
-            userRecover.setTemporaryCode(encodeCode);
-            userRepository.save(userRecover);
-
-            // Envia email com código
-            System.err.println("Estatus de email: " + mailService.sendEmail(
-                    userRecover.getEmail(),
-                    assunto.get(language),
-                    mailService.renderHtmlFromTemplate(generatedCode, language)
-            ));
 
             throw new UserAlreadyExistsException(
                     "Usuário já existe. Um novo código de verificação foi enviado para o e-mail.",
                     userRecover.getId(),
                     userRecover.getEmail()
             );
-
         }
 
         Role roleRecovered = roleRepository
@@ -108,15 +96,7 @@ public class UserService implements IUserService {
         User userSave = userMapper.userDtoToUserModel(userDto);
         userSave.getRoles().add(roleRecovered);
 
-        String hashCode = securityConfiguration.passwordEncoder().encode(userDto.getGeneratedCode());
-        System.err.println("Senha hashed: " + hashCode);
-        userSave.setGeneratedCode(hashCode);
-
-        System.err.println("code setado: " + userSave.getGeneratedCode());
-        System.err.println("roles setado: " + userSave.getRoles());
-
         userRepository.save(userSave);
-        System.err.println("roles setado pos save: " + userSave.getRoles());
         return userMapper.userModelToUserDto(userSave);
     }
 
