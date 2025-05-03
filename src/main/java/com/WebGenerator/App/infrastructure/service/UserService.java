@@ -24,7 +24,6 @@ import java.util.stream.Collectors;
 @Service
 public class UserService implements IUserService {
 
-
     private Map<EmailTextProvider.Language, String> assunto;
 
     public UserService(){
@@ -88,15 +87,16 @@ public class UserService implements IUserService {
             userRepository.save(userRecover);
 
             // Envia email com código
-            mailService.sendEmail(
+            System.err.println("Estatus de email: " + mailService.sendEmail(
                     userRecover.getEmail(),
-                    assunto.get(assunto),
+                    assunto.get(language),
                     mailService.renderHtmlFromTemplate(generatedCode, language)
-            );
+            ));
 
             throw new UserAlreadyExistsException(
                     "Usuário já existe. Um novo código de verificação foi enviado para o e-mail.",
-                    userRecover.getId()
+                    userRecover.getId(),
+                    userRecover.getEmail()
             );
 
         }
