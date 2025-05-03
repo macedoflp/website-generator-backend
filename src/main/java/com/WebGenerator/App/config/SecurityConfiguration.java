@@ -26,7 +26,8 @@ public class SecurityConfiguration {
             "/error", // Adicionando o endpoint de erro
             "/favicon.ico", // Opcional: para evitar problemas com o ícone
             "/webjars/**",  // Opcional: para lidar com dependências de bibliotecas estáticas
-            "/resources/**" // Opcional: para recursos estáticos
+            "/resources/**", // Opcional: para recursos estáticos
+            "/websites/get-img/8"
     };
 
     public static final String[] ENDPOINTS_WITH_AUTHENTICATION_REQUIRED = {
