@@ -31,12 +31,14 @@ public class UserAuthenticationFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         // Verifica se o endpoint requer autenticação antes de processar a requisição
         if (checkIfEndpointIsNotPublic(request)) {
+            System.err.println("ROTA Não autenticavel");
             String token = recoveryToken(request); // Recupera o token do cabeçalho Authorization da requisição
+            System.err.println("Token: " + token);
             if (token != null) {
                 String subject = jwtTokenService.getSubjectFromToken(token); // Obtém o assunto (neste caso, o nome de usuário) do token
                 User user = userRepository.findByEmail(subject).get(); // Busca o usuário pelo email (que é o assunto do token)
                 UserDetailsImpl userDetails = new UserDetailsImpl(user); // Cria um UserDetails com o usuário encontrado
-
+                System.err.println("Subject: " + subject);
                 // Cria um objeto de autenticação do Spring Security
                 Authentication authentication =
                         new UsernamePasswordAuthenticationToken(userDetails.getUsername(), null, userDetails.getAuthorities());
