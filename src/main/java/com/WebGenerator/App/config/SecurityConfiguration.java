@@ -22,6 +22,7 @@ public class SecurityConfiguration {
             "/payment/create-checkout-session",
             "/users/",
             "/websites/",
+            "/websites/get-img/8",
             "/websites/search-music",
             "/error", // Adicionando o endpoint de erro
             "/favicon.ico", // Opcional: para evitar problemas com o ícone
@@ -47,8 +48,6 @@ public class SecurityConfiguration {
         return http.csrf().disable()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and().authorizeHttpRequests()
-                .requestMatchers("/websites/get-img", "/websites/get-img/**").permitAll()
-                .requestMatchers(HttpMethod.GET, "/websites/get-img/*").permitAll()
                 .requestMatchers(ENDPOINTS_WITH_AUTHENTICATION_NOT_REQUIRED).permitAll()
                 .requestMatchers(ENDPOINTS_WITH_AUTHENTICATION_REQUIRED).authenticated()
                 .requestMatchers(ENDPOINTS_CUSTOMER).hasRole("CUSTOMER")
