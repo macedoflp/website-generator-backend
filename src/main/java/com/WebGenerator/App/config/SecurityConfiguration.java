@@ -20,6 +20,7 @@ public class SecurityConfiguration {
             "/login/request-code",
             "/login/validate-code",
             "/payment/create-checkout-session",
+            "/payment/create-pix-payment",
             "/users/",
             "/websites/",
             "/websites/get-img/8",
