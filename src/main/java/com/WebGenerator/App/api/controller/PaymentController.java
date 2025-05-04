@@ -1,5 +1,6 @@
 package com.WebGenerator.App.api.controller;
 
+import com.WebGenerator.App.api.dto.PixPaymentDto;
 import com.google.gson.JsonObject;
 import com.mercadopago.MercadoPagoConfig;
 import com.mercadopago.client.common.IdentificationRequest;
@@ -82,47 +83,51 @@ public class PaymentController {
         return result;
     }
 
+
+
+
     @PostMapping("/create-pix-payment")
-    public Map<String, Object> createPixPayment() throws Exception {
-        // Configura o access token
+    public Map<String, Object> createPixPayment(
+            @RequestBody PixPaymentDto req
+    ) throws Exception {
         MercadoPagoConfig.setAccessToken(mercadoPagoAccessToken);
 
-        // Cabeçalho customizado de idempotência
+
         Map<String, String> customHeaders = new HashMap<>();
         customHeaders.put("x-idempotency-key", UUID.randomUUID().toString());
-
         MPRequestOptions requestOptions = MPRequestOptions.builder()
                 .customHeaders(customHeaders)
                 .build();
+
 
         OffsetDateTime expiration = OffsetDateTime
                 .now(ZoneOffset.UTC)
                 .plusHours(24);
 
-        // Criação da requisição de pagamento Pix
-        PaymentCreateRequest paymentCreateRequest =
-                PaymentCreateRequest.builder()
-                        .transactionAmount(new BigDecimal("100"))
-                        .description("Título do produto")
-                        .paymentMethodId("pix")
-                        .dateOfExpiration(expiration)
-                        .payer(
-                                PaymentPayerRequest.builder()
-                                        .email("pagador@email.com")
-                                        .firstName("Test")
-                                        .build())
-                        .build();
+
+        PaymentCreateRequest paymentCreateRequest = PaymentCreateRequest.builder()
+                .transactionAmount(req.transactionAmount)
+                .description(req.description)
+                .paymentMethodId("pix")
+                .dateOfExpiration(expiration)
+                .payer(
+                        PaymentPayerRequest.builder()
+                                .email(req.email)
+                                .firstName(req.payerFirstName)
+                                .build()
+                )
+                .build();
+
 
         PaymentClient client = new PaymentClient();
         Payment payment = client.create(paymentCreateRequest, requestOptions);
-
 
         Map<String, Object> response = new HashMap<>();
         response.put("id", payment.getId());
         response.put("status", payment.getStatus());
         response.put("qrCode", payment.getPointOfInteraction().getTransactionData().getQrCode());
         response.put("qrCodeBase64", payment.getPointOfInteraction().getTransactionData().getQrCodeBase64());
-
         return response;
     }
+
 }
