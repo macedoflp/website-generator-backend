@@ -110,11 +110,6 @@ public class PaymentController {
                                 PaymentPayerRequest.builder()
                                         .email("pagador@email.com")
                                         .firstName("Test")
-                                        .identification(
-                                                IdentificationRequest.builder()
-                                                        .type("CPF")
-                                                        .number("19119119100")
-                                                        .build())
                                         .build())
                         .build();
 
