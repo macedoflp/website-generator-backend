@@ -32,19 +32,17 @@ public class PaymentController {
     @Value("${stripe.secret.key}")
     private String stripeSecretKey;
 
-    @Value("${stripe.product.priceId}")
-    private String priceId;
-
-    @Value("${server.port}")
-    private int serverPort;
-
     @Value("${mercadopago.access.token}")
     private String mercadoPagoAccessToken;
 
     @PostMapping("/create-checkout-session")
-    public Map<String, String> createCheckoutSession() throws Exception {
+    public Map<String, String> createCheckoutSession(@RequestBody Map<String, Object> payload) throws Exception {
         Stripe.apiKey = stripeSecretKey;
         String domain = "https://website-generator-backend-g3xs.onrender.com";
+
+        Long amount = Long.parseLong(payload.get("amount").toString());
+        String currency = payload.get("currency").toString();
+        String productName = payload.get("name").toString();
 
         SessionCreateParams params = SessionCreateParams.builder()
                 .setUiMode(SessionCreateParams.UiMode.CUSTOM)
@@ -52,7 +50,17 @@ public class PaymentController {
                 .setReturnUrl(domain + "/return?session_id={CHECKOUT_SESSION_ID}")
                 .addLineItem(SessionCreateParams.LineItem.builder()
                         .setQuantity(1L)
-                        .setPrice(priceId)
+                        .setPriceData(
+                                SessionCreateParams.LineItem.PriceData.builder()
+                                        .setCurrency(currency)
+                                        .setUnitAmount(amount)
+                                        .setProductData(
+                                                SessionCreateParams.LineItem.PriceData.ProductData.builder()
+                                                        .setName(productName)
+                                                        .build()
+                                        )
+                                        .build()
+                        )
                         .build())
                 .build();
 
@@ -64,7 +72,6 @@ public class PaymentController {
         response.put("clientSecret", clientSecret);
         return response;
     }
-
     @GetMapping("/session-status")
     public Map<String, String> getSessionStatus(@RequestParam("session_id") String sessionId) throws Exception {
         Stripe.apiKey = stripeSecretKey;
