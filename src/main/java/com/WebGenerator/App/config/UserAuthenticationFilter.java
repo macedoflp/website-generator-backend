@@ -1,5 +1,6 @@
 package com.WebGenerator.App.config;
 
+import com.WebGenerator.App.api.controller.WebSiteController;
 import com.WebGenerator.App.domain.model.User;
 import com.WebGenerator.App.infrastructure.repository.UserRepository;
 import com.WebGenerator.App.infrastructure.service.JwtTokenService;
@@ -15,6 +16,9 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.io.IOException;
 import java.util.Arrays;
 
@@ -27,11 +31,14 @@ public class UserAuthenticationFilter extends OncePerRequestFilter {
     @Autowired
     private UserRepository userRepository;
 
+    private static final Logger log = LoggerFactory.getLogger(UserAuthenticationFilter.class);
+
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         // Verifica se o endpoint requer autenticação antes de processar a requisição
         if (checkIfEndpointIsNotPublic(request)) {
             System.err.println("ROTA Não autenticavel");
+            System.err.println("Request path: " + request.getRequestURI());
             String token = recoveryToken(request); // Recupera o token do cabeçalho Authorization da requisição
             System.err.println("Token: " + token);
             if (token != null) {

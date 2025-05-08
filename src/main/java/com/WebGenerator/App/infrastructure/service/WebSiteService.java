@@ -39,9 +39,15 @@ public class WebSiteService implements IWebSiteService {
 
     @Override
     public WebSiteDto create(WebSiteDto webSiteDto){
+
         WebSite webSiteSave = webSiteMapper.webSiteDtoToWebSiteModel(webSiteDto);
-        webSiteRespository.save(webSiteSave);
-        return webSiteMapper.webSiteModelToWebSiteDto(webSiteSave);
+        WebSite webSiteSaved = webSiteRespository.save(webSiteSave);
+
+        String linkWebSite = "https://lovetimelines.com/" + webSiteSaved.getId() + "/" + slugify(webSiteSaved.getTitle());
+        webSiteSaved.setUrlWebSite(linkWebSite);
+        webSiteSaved = webSiteRespository.save(webSiteSaved);
+
+        return webSiteMapper.webSiteModelToWebSiteDto(webSiteSaved);
     }
 
     public Img addImg(WebSite webSite, MultipartFile file){
@@ -105,5 +111,19 @@ public class WebSiteService implements IWebSiteService {
     @Override
     public List<String> getLinksUser(Long idUser) {
         return this.webSiteRespository.findLinksUser(idUser);
+    }
+
+    private String slugify(String text) {
+        if (text == null || text.isEmpty()) {
+            return "";
+        }
+
+        return text
+                .trim() // Remove espaços do início e do fim
+                .toLowerCase() // Converte para letras minúsculas
+                .replaceAll("[\\u0300-\\u036f]", "") // Remove os acentos
+                .replaceAll("&", "and") // Substitui "&" por "and"
+                .replaceAll("[^a-z0-9]+", "-") // Substitui caracteres inválidos por hífens
+                .replaceAll("^-+|-+$", ""); // Remove hífens do início e do fim
     }
 }

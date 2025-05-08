@@ -23,7 +23,7 @@ import java.util.Map;
 @Service
 public class RegistrationService {
 
-    @Autowired
+/*    @Autowired
     private UserMapper userMapper;
 
     @Autowired
@@ -51,65 +51,65 @@ public class RegistrationService {
         assunto.put(EmailTextProvider.Language.EN, "Your verification code");
         assunto.put(EmailTextProvider.Language.ES, "Su código de verificación");
         assunto.put(EmailTextProvider.Language.PT, "Seu código de verificação");
-    }
+    }*/
 
-    @Transactional
-    public RegistrationResponseDto registerUserWhiWebSite(RegistrationDto registrationDto, EmailTextProvider.Language language){
-
-        User userRecover = userRepository.findFirstByEmail(registrationDto.getUserDto().getEmail());
-        WebSite webSiteSave = webSiteMapper.webSiteDtoToWebSiteModel(registrationDto.getWebSiteDto());
-
+//    @Transactional
+//    public RegistrationResponseDto registerUserWhiWebSite(RegistrationDto registrationDto, EmailTextProvider.Language language){
+//
+//        User userRecover = userRepository.findFirstByEmail(registrationDto.getUserDto().getEmail());
+//        WebSite webSiteSave = webSiteMapper.webSiteDtoToWebSiteModel(registrationDto.getWebSiteDto());
+//
+////        User userSave = userMapper.userDtoToUserModel(registrationDto.getUserDto());
+//
+//        WebSite webSiteSaved = webSiteRespository.save(webSiteSave);
+//        String linkWebSite = "https://love-timeline-five.vercel.app/" + webSiteSaved.getId() + "/" + slugify(webSiteSaved.getTitle());
+//        webSiteSaved.setUrlWebSite(linkWebSite);
+//        webSiteSaved = webSiteRespository.save(webSiteSaved);
+//
+//        if (userRecover != null){
+//
+//            String generatedCode = CodeGenerator.generateCode(6);
+//            String encodeCode = securityConfiguration.passwordEncoder().encode(generatedCode);
+//            userRecover.setGeneratedCode(encodeCode);
+//            userRepository.save(userRecover);
+//
+//            // Vincula website ao usuário
+//            webSiteSave.setUser(userRecover);
+//            userRecover.getWebSites().add(webSiteSave);
+//            webSiteRespository.save(webSiteSave);
+//
+//            // Envia email com código
+//            mailService.sendEmail(
+//                userRecover.getEmail(),
+//                assunto.get(assunto),
+//                mailService.renderHtmlFromTemplate(generatedCode, language)
+//            );
+//
+//            LoginUserDto loginDto = new LoginUserDto(userRecover.getEmail(), generatedCode);
+//            RecoveryJwtTokenDto token = autenticationService.authenticateUser(loginDto);
+//
+//            RegistrationResponseDto response = new RegistrationResponseDto(
+//                    webSiteMapper.webSiteModelToWebSiteDto(webSiteSaved),
+//                    token
+//            );
+//            return response;
+//
+//        }
+//
+//        // Usuário novo: criar user + site
 //        User userSave = userMapper.userDtoToUserModel(registrationDto.getUserDto());
-
-        WebSite webSiteSaved = webSiteRespository.save(webSiteSave);
-        String linkWebSite = "https://love-timeline-five.vercel.app/" + webSiteSaved.getId() + "/" + slugify(webSiteSaved.getTitle());
-        webSiteSaved.setUrlWebSite(linkWebSite);
-        webSiteSaved = webSiteRespository.save(webSiteSaved);
-
-        if (userRecover != null){
-
-            String generatedCode = CodeGenerator.generateCode(6);
-            String encodeCode = securityConfiguration.passwordEncoder().encode(generatedCode);
-            userRecover.setGeneratedCode(encodeCode);
-            userRepository.save(userRecover);
-
-            // Vincula website ao usuário
-            webSiteSave.setUser(userRecover);
-            userRecover.getWebSites().add(webSiteSave);
-            webSiteRespository.save(webSiteSave);
-
-            // Envia email com código
-            mailService.sendEmail(
-                userRecover.getEmail(),
-                assunto.get(assunto),
-                mailService.renderHtmlFromTemplate(generatedCode, language)
-            );
-
-            LoginUserDto loginDto = new LoginUserDto(userRecover.getEmail(), generatedCode);
-            RecoveryJwtTokenDto token = autenticationService.authenticateUser(loginDto);
-
-            RegistrationResponseDto response = new RegistrationResponseDto(
-                    webSiteMapper.webSiteModelToWebSiteDto(webSiteSaved),
-                    token
-            );
-            return response;
-
-        }
-
-        // Usuário novo: criar user + site
-        User userSave = userMapper.userDtoToUserModel(registrationDto.getUserDto());
-        webSiteSave.setUser(userSave);
-        userSave.getWebSites().add(webSiteSave);
-
-        webSiteRespository.save(webSiteSave);
-        userRepository.save(userSave);
-
-        return new RegistrationResponseDto(
-                webSiteMapper.webSiteModelToWebSiteDto(webSiteSave),
-                null
-        );
-
-    }
+//        webSiteSave.setUser(userSave);
+//        userSave.getWebSites().add(webSiteSave);
+//
+//        webSiteRespository.save(webSiteSave);
+//        userRepository.save(userSave);
+//
+//        return new RegistrationResponseDto(
+//                webSiteMapper.webSiteModelToWebSiteDto(webSiteSave),
+//                null
+//        );
+//
+//    }
 
     private String slugify(String text) {
         if (text == null || text.isEmpty()) {

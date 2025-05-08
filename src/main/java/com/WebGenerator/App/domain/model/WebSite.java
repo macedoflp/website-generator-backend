@@ -54,6 +54,17 @@ public class WebSite {
     @JsonBackReference
     private User user_app;
 
+    @Column(nullable = false)
+    private String idiom;
+
+    public String getIdiom() {
+        return idiom;
+    }
+
+    public void setIdiom(String idiom) {
+        this.idiom = idiom;
+    }
+
     public void addImg(Img img){
         this.imgs.add(img);
     }
