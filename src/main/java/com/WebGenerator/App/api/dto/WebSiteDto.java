@@ -18,6 +18,15 @@ public class WebSiteDto {
     private Integer isActive;
     @JsonProperty("website_url")
     private String urlWebSite;
+    private String idiom;
+
+    public String getIdiom() {
+        return idiom;
+    }
+
+    public void setIdiom(String idiom) {
+        this.idiom = idiom;
+    }
 
     private User user_app;
 

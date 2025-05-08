@@ -33,23 +33,23 @@ public class RegistrationController {
     @Autowired
     private MailService mailService;
 
-    @PostMapping
-    public ResponseEntity<?> register(
-            @RequestBody @Valid RegistrationDto registrationDto,
-            @RequestParam EmailTextProvider.Language language,
-            @RequestParam QRCodeModel qrModel
-    ){
-        RegistrationResponseDto response = registrationService.registerUserWhiWebSite(registrationDto, language);
-
-        if (response.webSite() != null) {
-            mailService.sendEmail(
-                    registrationDto.getUserDto().getEmail(),
-                    assunto.get(language),
-                    mailService.renderHtmlFromTemplate(response.webSite().getUrlWebSite(), language, qrModel)
-            );
-        }
-
-        return ResponseEntity.ok(response);
-    }
+//    @PostMapping
+//    public ResponseEntity<?> register(
+//            @RequestBody @Valid RegistrationDto registrationDto,
+//            @RequestParam EmailTextProvider.Language language,
+//            @RequestParam QRCodeModel qrModel
+//    ){
+//        RegistrationResponseDto response = registrationService.registerUserWhiWebSite(registrationDto, language);
+//
+//        if (response.webSite() != null) {
+//            mailService.sendEmail(
+//                    registrationDto.getUserDto().getEmail(),
+//                    assunto.get(language),
+//                    mailService.renderHtmlFromTemplate(response.webSite().getUrlWebSite(), language, qrModel)
+//            );
+//        }
+//
+//        return ResponseEntity.ok(response);
+//    }
 
 }

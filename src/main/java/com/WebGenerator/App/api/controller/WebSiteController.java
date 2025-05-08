@@ -1,13 +1,16 @@
 package com.WebGenerator.App.api.controller;
 
 
+import com.WebGenerator.App.api.dto.UserDto;
 import com.WebGenerator.App.api.dto.WebSiteDto;
+import com.WebGenerator.App.api.mapper.UserMapper;
 import com.WebGenerator.App.domain.localization.EmailTextProvider;
 import com.WebGenerator.App.domain.model.Img;
 import com.WebGenerator.App.domain.model.QRCodeModel;
 import com.WebGenerator.App.domain.model.WebSite;
 import com.WebGenerator.App.domain.service.IWebSiteService;
 import com.WebGenerator.App.infrastructure.service.MailService;
+import com.WebGenerator.App.infrastructure.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.*;
@@ -37,6 +40,12 @@ public class WebSiteController {
     @Autowired
     private MailService mailService;
 
+    @Autowired
+    private UserService userService;
+
+    @Autowired
+    private UserMapper userMapper;
+
     @GetMapping("/")
     public List<WebSiteDto> All(){
         return webSiteService.allWebSites();
@@ -49,17 +58,27 @@ public class WebSiteController {
     }
 
     // passa a ser uma rota para fins de testes de envio de emails e criação de site sem esta atrelado a um usuario
-    @PostMapping
+    @PostMapping("/")
     public WebSiteDto create(
             @RequestBody WebSiteDto webSite,
             @RequestParam EmailTextProvider.Language language,
             @RequestParam QRCodeModel qrModel)
     {
+        webSite.setIdiom(language.name());
+
         WebSiteDto webSiteDto = webSiteService.create(webSite);
+
+        // recuperar usuario
+        Long idUser = webSiteDto.getUser().getId();
+        UserDto userRecover = userService.getFirstUserById(idUser);
+        // setar no dto de retorno do website
+        webSiteDto.setUser(userMapper.userDtoToUserModel(userRecover));
+
+        String email = webSiteDto.getUser().getEmail();
 
         if(webSiteDto != null){
             mailService.sendEmail(
-                    webSiteDto.getUser().getEmail(),
+                    email,
                     assunto.get(language),
                     mailService.renderHtmlFromTemplate(webSiteDto.getUrlWebSite(), language, qrModel)
             );
@@ -67,15 +86,15 @@ public class WebSiteController {
         return webSiteDto;
     }
 
-    @PostMapping(path = "/add-img/{idWebSite}")
-    public Img addImg(@PathVariable Long idWebSite, @RequestParam("file") MultipartFile file){
-        WebSite webSite = webSiteService.getWebSiteById(idWebSite);
+    @PostMapping("/add-img")
+    public Img addImg(@RequestParam Long websiteId, @RequestParam("file") MultipartFile file){
+        WebSite webSite = webSiteService.getWebSiteById(websiteId);
         return  webSiteService.addImg(webSite, file);
     }
 
-    @GetMapping("/get-img/{idWebSite}")
-    public List<Img> getImg(@PathVariable Long idWebSite){
-        WebSite webSite = webSiteService.getWebSiteById(idWebSite);
+    @GetMapping("/get-img")
+    public List<Img> getImg(@RequestParam Long websiteId){
+        WebSite webSite = webSiteService.getWebSiteById(websiteId);
         return webSite.getImgs();
     }
 

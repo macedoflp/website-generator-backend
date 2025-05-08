@@ -8,6 +8,7 @@ import org.mapstruct.Mapping;
 @Mapper(componentModel = "spring")
 public interface WebSiteMapper {
     @Mapping(source = "urlWebSite", target = "urlWebSite")
+    @Mapping(source = "idiom", target = "idiom")
     WebSiteDto webSiteModelToWebSiteDto(WebSite webSite);
     WebSite webSiteDtoToWebSiteModel(WebSiteDto webSiteDto);
 }
