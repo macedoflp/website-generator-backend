@@ -1,5 +1,6 @@
 package com.WebGenerator.App.domain.model;
 
+import com.WebGenerator.App.domain.model.util.Categoria;
 import com.WebGenerator.App.domain.model.util.Status;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
@@ -57,12 +58,23 @@ public class WebSite {
     @Column(nullable = false)
     private String idiom;
 
+    @Column(nullable = false)
+    private Categoria categoria;
+
     public String getIdiom() {
         return idiom;
     }
 
     public void setIdiom(String idiom) {
         this.idiom = idiom;
+    }
+
+    public Categoria getCategoria() {
+        return categoria;
+    }
+
+    public void setCategoria(Categoria categoria) {
+        this.categoria = categoria;
     }
 
     public void addImg(Img img){

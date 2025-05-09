@@ -5,6 +5,7 @@ import java.util.stream.Collectors;
 
 import com.WebGenerator.App.api.controller.util.exception.WebSiteNotFoundException;
 import com.WebGenerator.App.domain.model.Img;
+import com.WebGenerator.App.domain.model.util.Categoria;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
@@ -40,10 +41,18 @@ public class WebSiteService implements IWebSiteService {
     @Override
     public WebSiteDto create(WebSiteDto webSiteDto){
 
+        System.err.println("categoria: " + webSiteDto.getCategoria());
+
         WebSite webSiteSave = webSiteMapper.webSiteDtoToWebSiteModel(webSiteDto);
+        webSiteSave.setCategoria(webSiteDto.getCategoria());
         WebSite webSiteSaved = webSiteRespository.save(webSiteSave);
 
-        String linkWebSite = "https://lovetimelines.com/" + webSiteSaved.getId() + "/" + slugify(webSiteSaved.getTitle());
+        String montherDay = "mothers-day/";
+
+        String linkWebSite = "https://lovetimelines.com/" +
+                (webSiteDto.getCategoria().getValue() == Categoria.MAES.getValue() ?  montherDay : "") +
+                webSiteSaved.getId() + "/" + slugify(webSiteSaved.getTitle());
+
         webSiteSaved.setUrlWebSite(linkWebSite);
         webSiteSaved = webSiteRespository.save(webSiteSaved);
 
