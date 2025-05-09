@@ -1,6 +1,7 @@
 package com.WebGenerator.App.api.dto;
 
 import com.WebGenerator.App.domain.model.User;
+import com.WebGenerator.App.domain.model.util.Categoria;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Setter;
 
@@ -19,6 +20,7 @@ public class WebSiteDto {
     @JsonProperty("website_url")
     private String urlWebSite;
     private String idiom;
+    private Categoria categoria;
 
     public String getIdiom() {
         return idiom;
@@ -26,6 +28,10 @@ public class WebSiteDto {
 
     public void setIdiom(String idiom) {
         this.idiom = idiom;
+    }
+
+    public Categoria getCategoria() {
+        return categoria;
     }
 
     private User user_app;
