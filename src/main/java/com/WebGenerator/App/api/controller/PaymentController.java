@@ -136,5 +136,19 @@ public class PaymentController {
         response.put("qrCodeBase64", payment.getPointOfInteraction().getTransactionData().getQrCodeBase64());
         return response;
     }
+    @GetMapping("/check-pix-status")
+    public Map<String, Object> checkPixStatus(@RequestParam("id") Long paymentId) throws Exception {
+        MercadoPagoConfig.setAccessToken(mercadoPagoAccessToken);
+
+        PaymentClient client = new PaymentClient();
+        Payment payment = client.get(paymentId);
+
+        Map<String, Object> response = new HashMap<>();
+        response.put("id", payment.getId());
+        response.put("status", payment.getStatus()); // Ex: pending, approved, rejected
+        response.put("statusDetail", payment.getStatusDetail());
+
+        return response;
+    }
 
 }

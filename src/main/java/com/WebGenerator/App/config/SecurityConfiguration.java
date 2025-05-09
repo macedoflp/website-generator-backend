@@ -22,6 +22,7 @@ public class SecurityConfiguration {
             "/login/validate-code",// ok
             "/payment/create-checkout-session",
             "/payment/create-pix-payment",
+            "/payment/check-pix-status",
             "/users/",// ok
             "/websites/",// ok
             "/websites/get-img",
@@ -31,6 +32,8 @@ public class SecurityConfiguration {
             "/favicon.ico", // Opcional: para evitar problemas com o ícone
             "/webjars/**",  // Opcional: para lidar com dependências de bibliotecas estáticas
             "/resources/**", // Opcional: para recursos estáticos
+            "/payment/**",
+            "/payment/check-pix-status",
     };
 
     public static final String[] ENDPOINTS_WITH_AUTHENTICATION_REQUIRED = {
